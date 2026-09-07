@@ -80,6 +80,10 @@
   .tf-hint code{background:#f0f0f1;border-radius:3px;padding:1px 5px}
 
   .tf-table{font-size:13px}
+  .tf-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tf-scroll .widefat{min-width:540px}
+  .tf-msg-row>div{min-width:0}
+  .tf-msg-text{overflow-wrap:anywhere;word-break:break-word}
   .tf-level-select{height:28px;padding:0 22px 0 8px;border:1px solid #c3c4c7;border-radius:3px;font-size:12px;background:#fff;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%2350575e' d='M0 0h10L5 6z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center}
   .tf-assign{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
   .tf-assign-select{max-width:230px;height:28px;padding:0 24px 0 8px;border:1px solid #c3c4c7;border-radius:3px;font-size:12px;background:#fff;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%2350575e' d='M0 0h10L5 6z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;text-overflow:ellipsis}
@@ -199,12 +203,14 @@ sam_p</textarea>
         </div>
         <p class="tf-hint">Difficulty is read from the ticket's keywords on import: <code>good-first-bug</code> &rarr; Beginner, <code>has-test-info</code> &rarr; Moderate, anything else &rarr; Advanced. Each participant also carries a level, so the assignment dropdown can match them.</p>
 
+        <div class="tf-scroll">
         <table class="widefat tf-table">
           <thead>
             <tr><th>Participant</th><th>Level <span class="tf-proposed">New</span></th><th>Assigned tickets</th><th></th></tr>
           </thead>
           <tbody id="tf-participants-list"></tbody>
         </table>
+        </div>
       </main>
 
       <!-- PROPOSED: session history + export -->
@@ -217,10 +223,12 @@ sam_p</textarea>
           </div>
         </div>
         <p class="tf-count" id="tf-history-count">Nothing recorded yet. Assign a ticket, then mark it reported, and it appears here.</p>
-        <table class="widefat tf-table" id="tf-history-table" hidden>
+        <div class="tf-scroll" id="tf-history-scroll" hidden>
+        <table class="widefat tf-table" id="tf-history-table">
           <thead><tr><th>Ticket</th><th>Level</th><th>Tester</th><th>Outcome</th></tr></thead>
           <tbody id="tf-history-body"></tbody>
         </table>
+        </div>
         <textarea class="tf-recap" id="tf-recap" hidden placeholder="The recap post skeleton will appear here"></textarea>
       </section>
 
@@ -393,9 +401,9 @@ sam_p</textarea>
   }
 
   function renderHistory(){
-    var body=$("#tf-history-body"), table=$("#tf-history-table"), count=$("#tf-history-count");
-    if(!state.history.length){ table.hidden=true; count.hidden=false; count.textContent="Nothing recorded yet. Assign a ticket, then mark it reported, and it appears here."; return; }
-    count.hidden=true; table.hidden=false; body.innerHTML="";
+    var body=$("#tf-history-body"), wrap=$("#tf-history-scroll"), count=$("#tf-history-count");
+    if(!state.history.length){ wrap.hidden=true; count.hidden=false; count.textContent="Nothing recorded yet. Assign a ticket, then mark it reported, and it appears here."; return; }
+    count.hidden=true; wrap.hidden=false; body.innerHTML="";
     state.history.forEach(function(h){
       var tr=document.createElement("tr");
       tr.innerHTML='<td><a href="'+TRAC+h.id+'" target="_blank" rel="noopener">#'+h.id+'</a> '+esc(h.sum)+'</td>'+
