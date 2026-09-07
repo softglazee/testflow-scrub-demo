@@ -45,6 +45,7 @@
   .tf-timer-controls{display:flex;align-items:center;gap:8px}
   .tf-timer{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px;color:#1d2327;min-width:70px}
   .tf-body{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .tf-body>*{min-width:0}
   .tf-messages-panel{background:#fff;border:1px solid #c3c4c7;border-radius:4px;overflow:hidden}
   .tf-panel-section{padding:14px 16px;border-bottom:1px solid #f0f0f1}
   .tf-panel-section:last-child{border-bottom:none}
@@ -53,7 +54,7 @@
   .tf-msg-row:last-child{border-bottom:none;padding-bottom:0}
   .tf-msg-label{font-size:11px;text-transform:uppercase;color:#ababab;margin-bottom:2px}
   .tf-msg-text{color:#1d2327;line-height:1.5;font-size:13px}
-  .tf-inline-code{background:#f0f0f1;border-radius:3px;padding:2px 5px;font-family:monospace;font-size:.9em}
+  .tf-inline-code{background:#f0f0f1;border-radius:3px;padding:2px 5px;font-family:monospace;font-size:.9em;overflow-wrap:anywhere;word-break:break-word}
   .tf-copy-btn{flex-shrink:0;padding:4px 10px;font-size:11px;background:#f6f7f7;border:1px solid #c3c4c7;border-radius:3px;cursor:pointer;white-space:nowrap;color:var(--wp);font-family:inherit}
   .tf-copy-btn:hover{background:var(--wp);color:#fff;border-color:var(--wp)}
   .tf-copy-btn.is-copied{background:#00a32a;color:#fff;border-color:#00a32a}
