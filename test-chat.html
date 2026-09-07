@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test Chat - TestFlow Console (demo)</title>
+<link rel="stylesheet" href="assets/css/dashicons.min.css">
+<link rel="stylesheet" href="assets/css/demo-frame.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+<div class="tfdemo-ribbon"><strong>Proof of concept</strong> for <a href="https://github.com/WordPress/test-handbook/issues/184">test-handbook #184</a>, built by <a href="https://profiles.wordpress.org/softglaze/">@softglaze</a>. The real TestFlow Console running as a static demo. Slack sending is server-side and disabled here; everything else runs in your browser.</div>
+<div class="tfdemo-adminbar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 7.03c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .923-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg><span>TestFlow Console</span><span class="who">Test Team</span></div>
+<nav class="tfdemo-nav"><a href="index.html">Overview</a><a href="scrub.html">Patch Testing Scrub</a><a href="test-chat.html" class="current">Test Chat</a><a href="tickets.html">Tickets</a><a href="scrub-plan.html">Scrub Plan</a></nav>
+<div id="wpbody-content">
+<div class="wrap tf-wrap">
+
+	<div class="tf-header">
+		<h1>Test Chat</h1>
+		<div class="tf-timer-controls">
+			<button id="tf-timer-reset" class="button">Reset</button>
+			<button id="tf-edit-limit-btn" class="button">Edit</button>
+			<button id="tf-timer-btn" class="button button-primary">&#9654; Start</button>
+			<span id="tf-timer" class="tf-timer">00:00</span>
+		</div>
+	</div>
+
+	<div class="tf-body">
+
+		<aside class="tf-messages-panel">
+
+											
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						1. Opening																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							2–3 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Announce start</div>
+								<div class="tf-msg-text">
+									/here Hey everyone! Please join us in #core-test for this week&#039;s Test Team chat.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="/here Hey everyone! Please join us in #core-test for this week&#039;s Test Team chat.">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Announce start (alternative)</div>
+								<div class="tf-msg-text">
+									/here We are starting now today&#039;s <code class="tf-inline-code">&lt;test-chat&gt;</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="/here We are starting now today&#039;s &lt;test-chat&gt;">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Welcome</div>
+								<div class="tf-msg-text">
+									Hello and welcome to this bi-weekly test team chat meeting!								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Hello and welcome to this bi-weekly test team chat meeting!">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						2. Attendance Check																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							2 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Attendance check</div>
+								<div class="tf-msg-text">
+									Who is joining us today? Please reply in the thread:
+1. Please say hello and note your WordPress.org profile username, as we will use this to record attendees in the notes.
+2. Feel welcome to introduce yourself briefly and share a flag or your favorite emoji!								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Who is joining us today? Please reply in the thread:
+1. Please say hello and note your WordPress.org profile username, as we will use this to record attendees in the notes.
+2. Feel welcome to introduce yourself briefly and share a flag or your favorite emoji!">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Async note</div>
+								<div class="tf-msg-text">
+									If you&#039;re joining this chat async, please add your details to the thread later and include (async) after your name. This helps us review meeting times and encourage participation across all time zones.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="If you&#039;re joining this chat async, please add your details to the thread later and include (async) after your name. This helps us review meeting times and encourage participation across all time zones.">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						3. Share Agenda																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							1 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Share agenda</div>
+								<div class="tf-msg-text tf-template-preview" data-template="Today&#039;s chat agenda can be found here. Please take a look.
+
+{agenda_url}">
+									Today&#039;s chat agenda can be found here. Please take a look.
+
+{agenda_url}								</div>
+							</div>
+							<button class="tf-copy-btn tf-template-copy" data-template="Today&#039;s chat agenda can be found here. Please take a look.
+
+{agenda_url}">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						4. Meeting Notes																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							1 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Section header</div>
+								<div class="tf-msg-text">
+									<code class="tf-inline-code">`Meeting Notes`</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="`Meeting Notes`">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Facilitator &amp; note-taker (same person)</div>
+								<div class="tf-msg-text tf-template-preview" data-template="Today&#039;s session facilitator and note-taker is {facilitator}">
+									Today&#039;s session facilitator and note-taker is {facilitator}								</div>
+							</div>
+							<button class="tf-copy-btn tf-template-copy" data-template="Today&#039;s session facilitator and note-taker is {facilitator}">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Facilitator &amp; note-taker (different people)</div>
+								<div class="tf-msg-text tf-template-preview" data-template="Today&#039;s session facilitator is {facilitator} and the note-taker is {note_taker}">
+									Today&#039;s session facilitator is {facilitator} and the note-taker is {note_taker}								</div>
+							</div>
+							<button class="tf-copy-btn tf-template-copy" data-template="Today&#039;s session facilitator is {facilitator} and the note-taker is {note_taker}">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Upcoming meetings</div>
+								<div class="tf-msg-text">
+									You can check upcoming meetings here to stay up to date and get involved.
+https://make.wordpress.org/meetings/#test								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="You can check upcoming meetings here to stay up to date and get involved.
+https://make.wordpress.org/meetings/#test">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Call to volunteer</div>
+								<div class="tf-msg-text">
+									🙌 If you’d like to volunteer for any open slot, please reply in the thread.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="🙌 If you’d like to volunteer for any open slot, please reply in the thread.">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						5. Test Team Discussions																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							30–40 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Start discussions</div>
+								<div class="tf-msg-text">
+									Now let&#039;s move on to agenda item: <code class="tf-inline-code">`Test Team Discussions`</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Now let&#039;s move on to agenda item: `Test Team Discussions`">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<p class="tf-section-note">FOR EACH AGENDA ITEM FOLLOW THE PATTERN</p>
+
+																	
+						
+						<p class="tf-section-note">Provide context if needed — share a brief explanation before opening the topic</p>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Introduce the item</div>
+								<div class="tf-msg-text">
+									[AGENDA_ITEM_TITLE]								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="[AGENDA_ITEM_TITLE]">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Transition between items</div>
+								<div class="tf-msg-text">
+									Then I think we can move to the next item in the agenda:
+[NEXT_AGENDA_ITEM]								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Then I think we can move to the next item in the agenda:
+[NEXT_AGENDA_ITEM]">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">When discussion needs continuation</div>
+								<div class="tf-msg-text">
+									Let&#039;s continue the conversation in the GitHub Issue and bring it back to another chat once there&#039;s more consensus on it.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Let&#039;s continue the conversation in the GitHub Issue and bring it back to another chat once there&#039;s more consensus on it.">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">When wrapping up a discussion</div>
+								<div class="tf-msg-text">
+									We can discuss this on GitHub and make the required changes accordingly.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="We can discuss this on GitHub and make the required changes accordingly.">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						6. Open Floor																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							5–10 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Time check</div>
+								<div class="tf-msg-text">
+									10min to end the meeting								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="10min to end the meeting">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Open floor</div>
+								<div class="tf-msg-text">
+									Let&#039;s move to the <code class="tf-inline-code">`Open Floor`</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Let&#039;s move to the `Open Floor`">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Invite contributions</div>
+								<div class="tf-msg-text">
+									Does anyone have anything they&#039;d like to share or discuss?								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Does anyone have anything they&#039;d like to share or discuss?">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						7. Announcements																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							5–8 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Intro</div>
+								<div class="tf-msg-text">
+									Before we finish the meeting here you have a few links of relevant things that are happening in the WordPress Ecosystem and in the Test Team								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Before we finish the meeting here you have a few links of relevant things that are happening in the WordPress Ecosystem and in the Test Team">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Ecosystem announcements</div>
+								<div class="tf-msg-text">
+									<code class="tf-inline-code">`WordPress Ecosystem Announcements`</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="`WordPress Ecosystem Announcements`">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Test Team announcements</div>
+								<div class="tf-msg-text">
+									<code class="tf-inline-code">`Test Team Announcements`</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="`Test Team Announcements`">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Call for Testing</div>
+								<div class="tf-msg-text">
+									<code class="tf-inline-code">`Call for Testing`</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="`Call for Testing`">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Check for reactions</div>
+								<div class="tf-msg-text">
+									Any comment about any of these resources?								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Any comment about any of these resources?">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						8. Closing																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							1–2 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Wrap up</div>
+								<div class="tf-msg-text">
+									As there are no more comments we can wrap up the meeting.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="As there are no more comments we can wrap up the meeting.">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Closing message</div>
+								<div class="tf-msg-text">
+									So this brings us to the end of our meeting <code class="tf-inline-code">&lt;/test-chat&gt;</code> thank you all for coming.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="So this brings us to the end of our meeting &lt;/test-chat&gt; thank you all for coming.">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+							
+		</aside>
+
+		<div class="tf-right-col">
+
+			<div class="tf-tracker">
+				<div class="tf-section-label">Session Variables</div>
+
+				<div class="tf-var-field">
+					<label class="tf-pool-label" for="tf-agenda-url">
+						Agenda URL					</label>
+					<input
+						type="url"
+						id="tf-agenda-url"
+						class="tf-text-input"
+						placeholder="https://make.wordpress.org/test/..."
+					>
+				</div>
+
+				<div class="tf-var-field">
+					<label class="tf-pool-label" for="tf-facilitator">
+						Facilitator					</label>
+					<input
+						type="text"
+						id="tf-facilitator"
+						class="tf-text-input"
+						placeholder="@username"
+					>
+				</div>
+
+				<div class="tf-var-field">
+					<label class="tf-pool-label" for="tf-note-taker">
+						Note-taker						<span class="tf-optional">(if different from facilitator)</span>
+					</label>
+					<input
+						type="text"
+						id="tf-note-taker"
+						class="tf-text-input"
+						placeholder="@username"
+					>
+				</div>
+			</div>
+
+			<details class="tf-slack">
+				<summary class="tf-import-summary">Slack channel and thread</summary>
+
+				<p class="tf-import-note">
+					Shared with the Patch Testing Scrub screen, so setting it in either place sets it in both. The token itself is saved on the site and is managed on the scrub screen.				</p>
+
+				<div class="tf-slack-fields">
+					<label class="tf-pool-label tf-slack-field--wide" for="tf-chat-slack-url">
+						Channel URL, pasted straight from the browser						<input type="text" id="tf-chat-slack-url" class="tf-text-input" placeholder="https://app.slack.com/client/T024MFP4J/C03B0H5J0" spellcheck="false">
+					</label>
+
+					<label class="tf-pool-label tf-slack-field--wide" for="tf-chat-slack-thread">
+						Thread links, one per line						<span class="tf-pool-hint">optional name before a pipe</span>
+						<textarea id="tf-chat-slack-thread" class="tf-pool-textarea" rows="3" wrap="off" placeholder="Agenda | https://yourteam.slack.com/archives/C03B0H5J0/p1700000000000000"></textarea>
+					</label>
+
+					<label class="tf-pool-label" for="tf-chat-send-target">
+						Send messages to						<select id="tf-chat-send-target" class="tf-announce-select">
+							<option value="channel">The channel</option>
+							<option value="thread">The thread</option>
+							<option value="both">The thread, also shown in the channel</option>
+						</select>
+					</label>
+				</div>
+
+				<p class="tf-import-note" id="tf-chat-slack-status" aria-live="polite"></p>
+			</details>
+
+			<details class="tf-slack" open>
+				<summary class="tf-import-summary">Attendance</summary>
+
+				<p class="tf-import-note">
+					Reads who has posted since you pressed Start, so the roll call matches the meeting rather than the last twelve hours. Start the timer first, then pull.				</p>
+
+				<p class="tf-slack-actions">
+					<button type="button" id="tf-chat-attendance-pull" class="button">Pull who has spoken</button>
+					<span id="tf-chat-attendance-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+
+				<div id="tf-chat-attendance-list"></div>
+
+				<p class="tf-slack-actions">
+					<button type="button" id="tf-chat-attendance-copy" class="button button-small">Copy roll call</button>
+					<button type="button" id="tf-chat-attendance-send" class="button button-small button-primary">Send roll call</button>
+				</p>
+			</details>
+
+			<details class="tf-slack">
+				<summary class="tf-import-summary">Announcements from WordPress</summary>
+
+				<p class="tf-import-note">
+					The latest posts from the Make WordPress blogs, so section 7 does not need a separate tab open. Pick one to fill the box, or type your own.				</p>
+
+				<div class="tf-announce-pick">
+					<select id="tf-chat-announcement-picker" class="tf-announce-select">
+						<option value="">Loading recent WordPress posts...</option>
+					</select>
+					<button type="button" id="tf-chat-announcement-refresh" class="button button-small">Refresh</button>
+				</div>
+
+				<textarea id="tf-chat-announcement" class="tf-pool-textarea" rows="3" placeholder="Pick one above, or type your own"></textarea>
+
+				<p class="tf-slack-actions">
+					<button type="button" id="tf-chat-announcement-copy" class="button button-small">Copy</button>
+					<button type="button" id="tf-chat-announcement-send" class="button button-small button-primary">Send</button>
+				</p>
+			</details>
+
+			<details class="tf-slack">
+				<summary class="tf-import-summary">Meeting notes</summary>
+
+				<p class="tf-import-note">
+					Builds the skeleton of the notes post from what this screen already knows: the agenda link, who ran it, who was there, and whatever you jot down as it happens. Nothing here is sent anywhere until you press a button.				</p>
+
+				<label class="tf-pool-label tf-slack-field--wide" for="tf-chat-decisions">
+					Decisions, one per line					<textarea id="tf-chat-decisions" class="tf-pool-textarea" rows="3"></textarea>
+				</label>
+
+				<label class="tf-pool-label tf-slack-field--wide" for="tf-chat-actions">
+					Action items, one per line					<span class="tf-pool-hint">optional owner before a pipe</span>
+					<textarea id="tf-chat-actions" class="tf-pool-textarea" rows="3" placeholder="@username | write up the results"></textarea>
+				</label>
+
+				<p class="tf-slack-actions">
+					<button type="button" id="tf-chat-notes-build" class="button">Build the notes</button>
+					<button type="button" id="tf-chat-notes-copy" class="button button-small">Copy</button>
+					<span id="tf-chat-notes-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+
+				<pre id="tf-chat-notes-out" class="tf-notes-out"></pre>
+			</details>
+
+			<div class="tf-section-label tf-clipboard-label">Your Clipboard</div>
+			<div id="tf-clipboard-bar" class="tf-clipboard-bar">
+				<span id="tf-clipboard-text" class="tf-clipboard-text tf-clipboard-text--empty">Nothing copied yet</span>
+				<button id="tf-clipboard-copy-btn" class="tf-clipboard-copy-btn" title="Copy again">
+					<span class="dashicons dashicons-clipboard" aria-hidden="true"></span>
+				</button>
+			</div>
+
+			<p class="tf-overview-pointer">
+				Handbook links, agenda examples and moderator tips all live on <a href="http://localhost:8889/wp-admin/admin.php?page=testflow-console">the Overview screen</a>.			</p>
+
+		</div>
+
+	</div>
+
+	<div class="tf-session-footer">
+		<button id="tf-reset-session-btn" class="button tf-btn-danger">
+			Reset Session		</button>
+	</div>
+
+	<div id="tf-toast" class="tf-toast" aria-live="polite"></div>
+
+</div>
+
+</div>
+<script src="assets/js/tf-data.js"></script>
+<script src="assets/js/tf-demo-shim.js"></script>
+<script src="assets/js/tf-picker.js"></script>
+<script src="assets/js/tf-threads.js"></script>
+<script src="assets/js/test-chat-session.js"></script>
+</body>
+</html>

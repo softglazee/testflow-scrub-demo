@@ -3,487 +3,315 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TestFlow scrub demo (test-handbook #184)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{ --wp-admin-theme-color:#2271b1; --wp:#2271b1; }
-  *{box-sizing:border-box}
-  [hidden]{display:none!important}
-  body{margin:0;background:#f0f0f1;color:#1d2327;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5}
-  a{color:var(--wp);text-decoration:none} a:hover{text-decoration:underline}
-
-  .ribbon{background:#fcf3cd;color:#5c4a00;font-size:.82rem;text-align:center;padding:7px 14px;border-bottom:1px solid #e6c200}
-  .ribbon strong{font-weight:700}
-  .wpadminbar{background:#1d2327;color:#c3c4c7;height:44px;display:flex;align-items:center;gap:10px;padding:0 14px;font-size:13px}
-  .wpadminbar svg{width:20px;height:20px;fill:#fff}
-  .wpadminbar .who{margin-left:auto}
-  .breadcrumb{max-width:1400px;margin:0 auto;padding:14px 20px 0;color:#646970;font-size:13px}
-
-  .wrap{max-width:1400px;margin:0 auto;padding:6px 20px 60px}
-  h1{font-size:23px;font-weight:400;margin:0}
-  h2{font-size:16px;margin:0 0 10px}
-
-  .button{background:#f6f7f7;border:1px solid #c3c4c7;border-radius:3px;color:#2c3338;padding:5px 12px;font-size:13px;cursor:pointer;line-height:1.6;font-family:inherit;display:inline-flex;align-items:center;gap:6px}
-  .button:hover{background:#f0f0f1;border-color:#8c8f94}
-  .button-primary{background:var(--wp);border-color:var(--wp);color:#fff}
-  .button-primary:hover{background:#135e96;border-color:#135e96}
-  .button-small{padding:3px 9px;font-size:12px}
-
-  .widefat{border:1px solid #c3c4c7;border-collapse:collapse;width:100%;background:#fff;border-radius:4px;overflow:hidden}
-  .widefat th,.widefat td{padding:9px 10px;text-align:left;vertical-align:middle}
-  .widefat thead th{border-bottom:1px solid #c3c4c7;font-size:12px;background:#f0f0f1}
-  .widefat tbody td{border-bottom:1px solid #f0f0f1}
-  .widefat tbody tr:last-child td{border-bottom:none}
-
-  /* proposed marker */
-  .tf-proposed{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--wp);background:#e7f0f8;border:1px solid #b8d4f0;border-radius:10px;padding:1px 8px;margin-left:6px;vertical-align:middle}
-
-  /* TestFlow (adapted from the plugin's admin.css) */
-  .tf-wrap{max-width:1400px}
-  .tf-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0 16px;flex-wrap:wrap;gap:10px}
-  .tf-timer-controls{display:flex;align-items:center;gap:8px}
-  .tf-timer{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px;color:#1d2327;min-width:70px}
-  .tf-body{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-  .tf-body>*{min-width:0}
-  .tf-messages-panel{background:#fff;border:1px solid #c3c4c7;border-radius:4px;overflow:hidden}
-  .tf-panel-section{padding:14px 16px;border-bottom:1px solid #f0f0f1}
-  .tf-panel-section:last-child{border-bottom:none}
-  .tf-section-label{display:flex;align-items:center;gap:8px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#000;font-size:12px;margin-bottom:10px}
-  .tf-msg-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #f6f7f7}
-  .tf-msg-row:last-child{border-bottom:none;padding-bottom:0}
-  .tf-msg-label{font-size:11px;text-transform:uppercase;color:#ababab;margin-bottom:2px}
-  .tf-msg-text{color:#1d2327;line-height:1.5;font-size:13px}
-  .tf-inline-code{background:#f0f0f1;border-radius:3px;padding:2px 5px;font-family:monospace;font-size:.9em;overflow-wrap:anywhere;word-break:break-word}
-  .tf-copy-btn{flex-shrink:0;padding:4px 10px;font-size:11px;background:#f6f7f7;border:1px solid #c3c4c7;border-radius:3px;cursor:pointer;white-space:nowrap;color:var(--wp);font-family:inherit}
-  .tf-copy-btn:hover{background:var(--wp);color:#fff;border-color:var(--wp)}
-  .tf-copy-btn.is-copied{background:#00a32a;color:#fff;border-color:#00a32a}
-  .tf-context-note{font-size:12px;color:#646970;font-style:italic;padding:10px 16px;background:#fbfbfc;border-top:1px solid #f0f0f1}
-
-  .tf-right-col{display:flex;flex-direction:column;gap:16px}
-  .tf-tracker{background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:16px}
-
-  /* import panel (proposed) */
-  .tf-import{border:1px solid #b8d4f0;background:#f0f6fc;border-radius:4px;padding:14px;margin-bottom:16px}
-  .tf-import h3{margin:0 0 4px;font-size:14px;display:flex;align-items:center}
-  .tf-import p{margin:2px 0 10px;font-size:12px;color:#50575e}
-  .tf-import .qbtns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-  .tf-import-summary{font-size:13px;background:#fff;border:1px solid #c3c4c7;border-radius:3px;padding:10px 12px;margin-top:10px}
-  .tf-import-summary b{color:#1d2327}
-  .tf-dropped{margin:8px 0 0;padding-left:18px;font-size:12px;color:#646970}
-  .tf-dropped li{margin-bottom:2px}
-  details.tf-dropwrap summary{cursor:pointer;color:var(--wp);font-size:12px;margin-top:6px}
-
-  .tf-pool-setup{display:grid;grid-template-columns:1fr 2fr;gap:12px;margin-bottom:8px;padding-bottom:16px;border-bottom:1px solid #f0f0f1}
-  .tf-pool-label{display:block;font-size:12px;color:#646970;margin-bottom:4px}
-  .tf-pool-textarea{width:100%;font-size:12px;border:1px solid #c3c4c7;border-radius:3px;padding:6px 8px;resize:vertical;line-height:1.6;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;min-height:150px}
-  .tf-hint{font-size:12px;color:#646970;margin:8px 0 14px}
-  .tf-hint code{background:#f0f0f1;border-radius:3px;padding:1px 5px}
-
-  .tf-table{font-size:13px}
-  .tf-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .tf-scroll .widefat{min-width:540px}
-  .tf-msg-row>div{min-width:0}
-  .tf-msg-text{overflow-wrap:anywhere;word-break:break-word}
-  .tf-level-select{height:28px;padding:0 22px 0 8px;border:1px solid #c3c4c7;border-radius:3px;font-size:12px;background:#fff;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%2350575e' d='M0 0h10L5 6z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center}
-  .tf-assign{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-  .tf-assign-select{max-width:230px;height:28px;padding:0 24px 0 8px;border:1px solid #c3c4c7;border-radius:3px;font-size:12px;background:#fff;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%2350575e' d='M0 0h10L5 6z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;text-overflow:ellipsis}
-  .tf-chip{display:inline-flex;align-items:center;gap:6px;background:#f0f6fc;border:1px solid #b8d4f0;border-radius:12px;padding:2px 4px 2px 9px;font-size:12px;margin:2px 4px 2px 0}
-  .tf-chip .lv{font-size:10px;color:#646970}
-  .tf-chip.reported{background:#edfaef;border-color:#a7d3b6}
-  .tf-chip button{border:none;background:#c3c4c7;color:#fff;border-radius:50%;width:15px;height:15px;font-size:11px;line-height:1;cursor:pointer;padding:0}
-  .tf-chip .rep{background:none;color:#00a32a;font-weight:700;width:auto;height:auto;padding:0 2px}
-  .lvl{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:1px 7px;border-radius:10px}
-  .lvl.Beginner{background:#edfaef;color:#00a32a}
-  .lvl.Moderate{background:#fcf3e6;color:#8a5a00}
-  .lvl.Advanced{background:#fbeaea;color:#b32d2e}
-  .tf-empty-row td{text-align:center;color:#646970;padding:26px!important;font-style:italic}
-
-  /* session history panel (proposed) */
-  .tf-history{background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:16px}
-  .tf-history-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-  .tf-history-head h2{display:flex;align-items:center;margin:0}
-  .tf-history-actions{display:flex;gap:8px;flex-wrap:wrap}
-  .tf-recap{width:100%;min-height:150px;margin-top:12px;border:1px solid #c3c4c7;border-radius:3px;padding:10px 12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.6;resize:vertical;white-space:pre-wrap}
-  .tf-count{font-size:12px;color:#646970}
-
-  .tf-resources{border:1px solid #c3c4c7;border-radius:4px;padding:16px;background:#fff}
-  .tf-resource-links{margin:6px 0 0 16px;padding:0;list-style:disc;color:#8c8f94;font-size:13px}
-  .tf-resource-links a{color:inherit}
-
-  .callout{max-width:1400px;margin:22px auto 0;padding:0 20px}
-  .callout .box{background:#fff;border:1px solid #c3c4c7;border-left:4px solid var(--wp);border-radius:4px;padding:16px 18px}
-  .callout h2{font-size:16px;margin:0 0 8px}
-  .callout ul{margin:6px 0;padding-left:20px}
-  .callout li{margin-bottom:5px}
-  .foot{max-width:1400px;margin:20px auto 0;padding:16px 20px 0;border-top:1px solid #dcdcde;color:#8c8f94;font-size:12px}
-
-  .tf-toast{position:fixed;bottom:24px;right:24px;background:#1d2327;color:#fff;padding:9px 16px;border-radius:4px;font-size:13px;z-index:9999;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none}
-  .tf-toast.is-visible{opacity:1;transform:translateY(0)}
-
-  @media (max-width:1100px){ .tf-body{grid-template-columns:1fr} }
-  @media (max-width:600px){ .tf-pool-setup{grid-template-columns:1fr} .breadcrumb,.wrap{padding-left:14px;padding-right:14px} }
-</style>
+<title>Overview - TestFlow Console (demo)</title>
+<link rel="stylesheet" href="assets/css/dashicons.min.css">
+<link rel="stylesheet" href="assets/css/demo-frame.css">
+<link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
+<div class="tfdemo-ribbon"><strong>Proof of concept</strong> for <a href="https://github.com/WordPress/test-handbook/issues/184">test-handbook #184</a>, built by <a href="https://profiles.wordpress.org/softglaze/">@softglaze</a>. The real TestFlow Console running as a static demo. Slack sending is server-side and disabled here; everything else runs in your browser.</div>
+<div class="tfdemo-adminbar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 7.03c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .923-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg><span>TestFlow Console</span><span class="who">Test Team</span></div>
+<nav class="tfdemo-nav"><a href="index.html" class="current">Overview</a><a href="scrub.html">Patch Testing Scrub</a><a href="test-chat.html">Test Chat</a><a href="tickets.html">Tickets</a><a href="scrub-plan.html">Scrub Plan</a></nav>
+<div id="wpbody-content">
+<div class="wrap tf-wrap tf-overview">
 
-<div class="ribbon">
-  <strong>Proof of concept</strong> for <a href="https://github.com/WordPress/test-handbook/issues/184">test-handbook #184</a>,
-  built by <a href="https://profiles.wordpress.org/softglaze/">@softglaze</a>. A clickable demo of the proposed additions to
-  <a href="https://github.com/ozgursar/testflow">ozgursar/testflow</a>. Not the live plugin. Everything marked <span class="tf-proposed">Proposed</span> is new; the rest is the plugin as it is today.
+	<div class="tf-header">
+		<h1>TestFlow Console</h1>
+		<a class="button" href="https://make.wordpress.org/test/handbook/" target="_blank" rel="noopener noreferrer">
+			Test Team handbook		</a>
+	</div>
+
+	<p class="tf-overview-intro">
+		Session tools for WordPress Test Team moderators. The Test Team covers the whole ecosystem, not just core, so this console handles core Trac tickets, Gutenberg issues, meta and themes side by side.	</p>
+
+	<div class="tf-status-strip" id="tf-status-strip">
+		<div class="tf-status-card">
+			<span class="tf-status-key">Session</span>
+			<strong class="tf-status-value" id="tf-ov-session">checking</strong>
+			<span class="tf-status-sub" id="tf-ov-session-sub"></span>
+		</div>
+		<div class="tf-status-card">
+			<span class="tf-status-key">Participants</span>
+			<strong class="tf-status-value" id="tf-ov-people">0</strong>
+			<span class="tf-status-sub" id="tf-ov-people-sub"></span>
+		</div>
+		<div class="tf-status-card">
+			<span class="tf-status-key">Tickets in the pool</span>
+			<strong class="tf-status-value" id="tf-ov-tickets">0</strong>
+			<span class="tf-status-sub" id="tf-ov-tickets-sub"></span>
+		</div>
+		<div class="tf-status-card">
+			<span class="tf-status-key">Slack</span>
+			<strong class="tf-status-value" id="tf-ov-slack">checking</strong>
+			<span class="tf-status-sub" id="tf-ov-slack-sub"></span>
+		</div>
+		<div class="tf-status-card">
+			<span class="tf-status-key">History</span>
+			<strong class="tf-status-value" id="tf-ov-history">0</strong>
+			<span class="tf-status-sub">assignments recorded, all sessions</span>
+		</div>
+	</div>
+
+	<div class="tf-overview-grid">
+
+		<div class="tf-overview-main">
+
+			<div class="tf-session-cards">
+								<div class="tf-session-card">
+					<h2>Patch Testing Scrub</h2>
+					<p>The session console. Timer, message templates with one-click send to Slack, a participant tracker with experience levels, ticket assignment with repeat detection, props, and an assignment history that survives across sessions.</p>
+					<p class="tf-card-state" data-screen="scrub"></p>
+					<a href="http://localhost:8889/wp-admin/admin.php?page=testflow-console-scrub" class="button button-primary">
+						Open the scrub console					</a>
+				</div>
+								<div class="tf-session-card">
+					<h2>Test Chat</h2>
+					<p>The weekly team chat. Agenda, attendance, meeting notes, discussions, open floor, announcements and closing, with the facilitator and note-taker filled into every template.</p>
+					<p class="tf-card-state" data-screen="chat"></p>
+					<a href="http://localhost:8889/wp-admin/admin.php?page=testflow-console-test-chat" class="button button-primary">
+						Open Test Chat					</a>
+				</div>
+								<div class="tf-session-card">
+					<h2>Scrub Plan</h2>
+					<p>The document a team lead asks for before your first session. Builds itself from the ticket pool and the message templates, and exports ready to paste into a Google Doc.</p>
+					<p class="tf-card-state" data-screen="plan"></p>
+					<a href="http://localhost:8889/wp-admin/admin.php?page=testflow-console-plan" class="button button-primary">
+						Build a scrub plan					</a>
+				</div>
+								<div class="tf-session-card">
+					<h2>Tickets</h2>
+					<p>Everything currently in the pool, grouped by where it came from: core Trac, meta, themes and Gutenberg each get their own table with their own columns. Shows who has been handed each ticket, in this session and every earlier one.</p>
+					<p class="tf-card-state" data-screen="tickets"></p>
+					<a href="http://localhost:8889/wp-admin/admin.php?page=testflow-console-tickets" class="button button-primary">
+						Open the tickets table					</a>
+				</div>
+							</div>
+
+			<div class="tf-overview-panel tf-overview-panel--steps">
+				<h2>Your first scrub, start to finish</h2>
+				<p class="tf-overview-note">
+					If you have never run one of these, this is the whole path. Nothing here needs commit access or any special permission on wordpress.org.				</p>
+
+				<ol class="tf-steps">
+										<li>
+						<strong>Ask to run one, or offer to help</strong>
+						<span>Say hello in #core-test on the Make WordPress Slack and say you would like to help with patch testing. Somebody will point you at the next session. If you want to moderate, say that too, and a team lead will usually ask you to write a plan first.</span>
+					</li>
+										<li>
+						<strong>Get a test site you can break</strong>
+						<span>WordPress Playground runs in a browser tab and needs nothing installed. The Contributor Toolkit sets up a full wordpress-develop environment if you would rather work locally. Either is fine, and neither touches this site.</span>
+					</li>
+										<li>
+						<strong>Connect Slack</strong>
+						<span>On the Patch Testing Scrub screen, save a bot token, paste the channel URL, and invite the app to the channel. The checklist above says which of those are done. Without a token the console can still send through a webhook, but it cannot read the channel, so it cannot pull participants.</span>
+					</li>
+										<li>
+						<strong>Fill the ticket pool</strong>
+						<span>Export a Trac query as CSV and paste it in, or sync Gutenberg issues straight from GitHub, or type ticket ids by hand. Set a difficulty on each one, because that is what stops a beginner being handed something hard.</span>
+					</li>
+										<li>
+						<strong>Write the plan and send it</strong>
+						<span>The Scrub Plan screen turns the pool into the document a lead expects: the messages you will use, the tickets by tier, what you dropped and why, and how you will run the room. Export it, paste it into a doc, and send the link.</span>
+					</li>
+										<li>
+						<strong>Run the session</strong>
+						<span>Press Start, which also sets the window for pulling participants. Send the opening messages, pull whoever replied, assign a ticket each, and acknowledge reports as they arrive. One ticket per person at a time.</span>
+					</li>
+										<li>
+						<strong>Close it and give props</strong>
+						<span>Send the closing messages, then the props message, which is built from the people who actually took part rather than everyone in the room. Keep an eye on the thread afterwards, because people finish late.</span>
+					</li>
+									</ol>
+
+				<div class="tf-overview-actions">
+					<a class="button button-primary" href="http://localhost:8889/wp-admin/admin.php?page=testflow-console-plan">
+						Start a scrub plan					</a>
+					<a class="button" href="http://localhost:8889/wp-admin/admin.php?page=testflow-console-scrub">
+						Go to the scrub console					</a>
+				</div>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>Before you start a scrub</h2>
+				<p class="tf-overview-note">
+					Each item is read from this browser and from the site every time this page loads. Anything unticked is not set up yet.				</p>
+				<ul class="tf-checklist" id="tf-ov-checklist">
+					<li data-check="token">A Slack bot token is saved, so the console can read the channel and post</li>
+					<li data-check="channel">A channel link is pasted, so it knows where to send</li>
+					<li data-check="invited">The app has been invited to that channel with /invite</li>
+					<li data-check="tickets">Tickets are in the pool, from a Trac CSV, a GitHub sync or typed in by hand</li>
+					<li data-check="levels">Tickets carry a difficulty, so beginners are not handed the hard ones</li>
+					<li data-check="timer">The timer is started, which is also what sets the window for pulling participants</li>
+				</ul>
+				<p class="tf-overview-note">
+					The invite step cannot be checked from here. Slack only reports it when a read or a send fails, so treat that one as a reminder.				</p>
+
+				<div class="tf-invite-box">
+					<label class="tf-pool-label" for="tf-ov-invite">
+						Invite the app to the channel						<span class="tf-pool-hint">paste this into the channel</span>
+					</label>
+					<div class="tf-invite-row">
+						<input type="text" id="tf-ov-invite" class="tf-text-input" readonly value="/invite @testflow_console">
+						<button type="button" id="tf-ov-invite-copy" class="button">Copy</button>
+					</div>
+					<p class="tf-overview-note">
+						Run it in the channel you want the console to read and post in. Adding the app through Integrations adds the webhook, not the bot, so the slash command is still needed.					</p>
+				</div>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>What a tester needs to know</h2>
+				<p class="tf-overview-note">
+					From the handbook page on <a href="https://make.wordpress.org/test/handbook/patch-testing/" target="_blank" rel="noopener noreferrer">patch testing</a>. Copy it into the channel when somebody new turns up.				</p>
+
+				<h3 class="tf-overview-sub">The loop</h3>
+				<ol class="tf-overview-list">
+					<li>Set up a test site. WordPress Playground is the fastest route and needs nothing installed.</li>
+					<li>Apply the patch, through Playground or through Grunt on a local build.</li>
+					<li>Run the reproduction steps on the ticket.</li>
+					<li>Check whether the patch fixes the problem, and whether it breaks anything else. A patch that fixes one thing and breaks another is a regression, and saying so is as useful as saying it works.</li>
+					<li>Post the report back on the ticket, and drop a note in the channel so the moderator can hand you another.</li>
+				</ol>
+
+				<h3 class="tf-overview-sub">What goes in a report</h3>
+				<ul class="tf-overview-list">
+										<li>Environment: WordPress version, PHP version, server, database, browser and OS, plus the active theme and every active plugin including must-use plugins.</li>
+										<li>Steps taken: what you actually did, in order, so somebody else can repeat it.</li>
+										<li>Expected result: what should have happened.</li>
+										<li>Actual result: what did happen, ending in a pass or fail mark.</li>
+										<li>Screenshots or a screencast, before and after the patch.</li>
+										<li>Additional notes: anything else that would help the committer.</li>
+									</ul>
+
+				<p class="tf-overview-note">
+					The <a href="https://wordpress.org/plugins/test-reports/" target="_blank" rel="noopener noreferrer">Test Reports</a> plugin fills in the whole environment block for you and formats the report for Trac or for GitHub. Recommending it to a first-timer saves a lot of back and forth.				</p>
+
+				<div class="tf-overview-actions">
+					<button type="button" id="tf-ov-copy-brief" class="button button-primary">
+						Copy this as a Slack message					</button>
+					<span id="tf-ov-copy-status" class="tf-overview-note" aria-live="polite"></span>
+				</div>
+			</div>
+
+			<div class="tf-overview-panel tf-overview-panel--new">
+				<h2>
+					WordPress Contributor Toolkit 1.0					<span class="tf-new-flag">new</span>
+				</h2>
+				<p>
+					Announced on 14 August 2026. A desktop app that walks a first-time contributor through setting up a full wordpress-develop environment. It bundles Git, Node.js and npm, so nobody has to install those separately before they can test anything.				</p>
+				<p>
+					For a scrub it removes the step that loses people. Link a Trac ticket and it shows the ticket, its pull requests and its patches, applies the work, and runs it on a live site. Each linked ticket gets its own branch, so one environment covers a whole session. Finished work goes out as a GitHub pull request, an attachment on the ticket, or a patch handed to a mentor.				</p>
+				<p>
+					Builds exist for Windows, macOS on Apple Silicon, and Linux. Worth sending to anyone who says they would like to help but cannot get a local install working.				</p>
+				<ul class="tf-resource-links">
+					<li><a href="https://make.wordpress.org/core/2026/08/14/wordpress-contributor-toolkit-1-0-a-smoother-workflow-for-your-first-core-contribution/" target="_blank" rel="noopener noreferrer">The announcement post</a></li>
+					<li><a href="https://github.com/WordPress/contributor-toolkit/releases/tag/v1.0.0#downloads" target="_blank" rel="noopener noreferrer">Download v1.0.0</a></li>
+					<li><a href="https://wordpress.github.io/contributor-toolkit/guide/getting-started.html" target="_blank" rel="noopener noreferrer">Getting started guide</a></li>
+					<li><a href="https://github.com/WordPress/contributor-toolkit" target="_blank" rel="noopener noreferrer">Repository</a></li>
+				</ul>
+				<div class="tf-overview-actions">
+					<button type="button" id="tf-ov-copy-toolkit" class="button">
+						Copy this as a Slack message					</button>
+					<span id="tf-ov-toolkit-status" class="tf-overview-note" aria-live="polite"></span>
+				</div>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>Difficulty, and why it is a guess</h2>
+				<p>
+					Every ticket and every participant carries a level: beginner, moderate or advanced. Assignment dropdowns sort matching tickets to the top and grey out the rest, but never block you, because the moderator in the room knows more than a keyword does.				</p>
+				<p>
+					Levels are read from labels where labels exist. On Trac, good-first-bug means beginner and has-test-info means moderate. On GitHub, Good First Issue means beginner, and a bug that also asks for testing means moderate. Anything the console cannot read is called advanced on purpose: handing a hard ticket to a beginner costs more than holding an easy one back.				</p>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>What this console cannot do</h2>
+				<ul class="tf-overview-list">
+										<li>It cannot read Trac. Trac refuses requests from servers, so ticket detail arrives only through a CSV you export in your own browser, or from GitHub, which does answer. Tickets typed in by hand carry no detail.</li>
+										<li>It cannot tell you whether someone tested a ticket outside this console. The repeat check is built from what this plugin assigned, in this browser.</li>
+										<li>It posts as the Slack app, not as you, unless you install it with a user token. The app has to be invited to a channel before it can read or post there.</li>
+										<li>Session state lives in this browser. A different machine, or a cleared browser, starts empty. Your Slack credentials are the exception: those are stored on the site.</li>
+									</ul>
+			</div>
+
+		</div>
+
+		<aside class="tf-overview-side">
+
+			<div class="tf-overview-panel">
+				<h2>Where the tickets come from</h2>
+				<ul class="tf-resource-links">
+					<li><a href="https://core.trac.wordpress.org/query?status=assigned&amp;status=new&amp;status=reopened&amp;keywords=~needs-testing&amp;col=id&amp;col=summary&amp;col=status&amp;col=milestone&amp;col=priority&amp;col=component&amp;col=keywords&amp;col=time&amp;col=changetime" target="_blank" rel="noopener noreferrer">Core Trac: needs-testing query</a></li>
+					<li><a href="https://core.trac.wordpress.org/query?status=assigned&amp;status=new&amp;status=reopened&amp;keywords=~good-first-bug&amp;col=id&amp;col=summary&amp;col=status&amp;col=milestone&amp;col=priority&amp;col=component&amp;col=keywords&amp;col=time&amp;col=changetime" target="_blank" rel="noopener noreferrer">Core Trac: good-first-bug query</a></li>
+					<li><a href="https://github.com/WordPress/gutenberg/issues?q=is%3Aissue+is%3Aopen+label%3A%22Needs+Testing%22" target="_blank" rel="noopener noreferrer">Gutenberg: Needs Testing</a></li>
+					<li><a href="https://meta.trac.wordpress.org/" target="_blank" rel="noopener noreferrer">Meta Trac</a></li>
+					<li><a href="https://themes.trac.wordpress.org/" target="_blank" rel="noopener noreferrer">Themes Trac</a></li>
+				</ul>
+				<p class="tf-overview-note">
+					On a Trac query, use Download in other formats at the foot of the page and choose Comma-delimited, then paste the file into the CSV import on the scrub screen. Gutenberg needs no export: the console asks GitHub directly.				</p>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>Patch Testing Scrub links</h2>
+				<ul class="tf-resource-links">
+					<li><a href="https://make.wordpress.org/test/handbook/team-reps/patch-testing-scrub-guide/" target="_blank" rel="noopener noreferrer">Handbook: Patch Testing Scrub guide</a></li>
+					<li><a href="https://core.trac.wordpress.org/query?status=accepted&amp;status=assigned&amp;status=new&amp;status=reopened&amp;status=reviewing&amp;keywords=~needs-testing+has-patch&amp;milestone=!Awaiting+Review&amp;group=milestone&amp;max=0&amp;col=id&amp;col=summary&amp;col=status&amp;col=milestone&amp;col=owner&amp;col=type&amp;col=priority&amp;order=priority" target="_blank" rel="noopener noreferrer">Trac: needs-testing with a patch</a></li>
+					<li><a href="https://github.com/WordPress/gutenberg/issues?q=is%3Aopen+label%3A%22Needs+Testing%22" target="_blank" rel="noopener noreferrer">Gutenberg: issues needing testing</a></li>
+					<li><a href="https://github.com/WordPress/gutenberg/pulls?q=is%3Aopen+is%3Apr+label%3A%22Needs+Testing%22" target="_blank" rel="noopener noreferrer">Gutenberg: pull requests needing testing</a></li>
+				</ul>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>Test Chat links</h2>
+				<ul class="tf-resource-links">
+					<li><a href="https://make.wordpress.org/test/handbook/team-reps/test-chat-moderator-guide/" target="_blank" rel="noopener noreferrer">Handbook: Test Chat moderator guide</a></li>
+					<li><a href="https://make.wordpress.org/test/tag/test-chat-agenda/" target="_blank" rel="noopener noreferrer">Example Test Chat agendas</a></li>
+					<li><a href="https://github.com/WordPress/test-handbook/issues" target="_blank" rel="noopener noreferrer">Test handbook issues</a></li>
+				</ul>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>Moderator tips</h2>
+				<ul class="tf-overview-list">
+					<li>Acknowledge everyone. Thank people for what they bring, and use their @username when you answer.</li>
+					<li>Ask rather than assume. Could you say a bit more about that?</li>
+					<li>Summarise as you go and capture the action items while they are still fresh.</li>
+					<li>Keep the room moving. A long debate belongs on GitHub, not in the hour.</li>
+					<li>Facilitate without dominating. Leave room for other people to speak.</li>
+				</ul>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>Handbook and team</h2>
+				<ul class="tf-resource-links">
+					<li><a href="https://make.wordpress.org/test/handbook/" target="_blank" rel="noopener noreferrer">Test Team handbook</a></li>
+					<li><a href="https://make.wordpress.org/test/handbook/patch-testing/" target="_blank" rel="noopener noreferrer">Handbook: patch testing</a></li>
+					<li><a href="https://make.wordpress.org/test/handbook/team-reps/test-chat-moderator-guide/" target="_blank" rel="noopener noreferrer">Handbook: test chat moderator guide</a></li>
+					<li><a href="https://wordpress.slack.com/archives/core-test/" target="_blank" rel="noopener noreferrer">Slack: #core-test</a></li>
+					<li><a href="https://make.wordpress.org/test/" target="_blank" rel="noopener noreferrer">Make WordPress Test blog</a></li>
+					<li><a href="https://playground.wordpress.net/" target="_blank" rel="noopener noreferrer">WordPress Playground</a></li>
+					<li><a href="https://wordpress.org/plugins/test-reports/" target="_blank" rel="noopener noreferrer">Test Reports plugin</a></li>
+				</ul>
+			</div>
+
+			<div class="tf-overview-panel">
+				<h2>Recent sessions</h2>
+				<div id="tf-ov-recent" class="tf-overview-note">Reading history...</div>
+			</div>
+
+		</aside>
+
+	</div>
+
+	<div id="tf-toast" class="tf-toast" aria-live="polite"></div>
+
 </div>
 
-<div class="wpadminbar">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 7.03c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .923-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg>
-  <span>TestFlow &mdash; demo</span>
-  <span class="who">Test Team</span>
 </div>
-<div class="breadcrumb">Dashboard &rsaquo; Tools &rsaquo; TestFlow &rsaquo; Patch Testing Scrub</div>
-
-<div class="wrap tf-wrap">
-
-  <div class="tf-header">
-    <h1>Patch Testing Scrub</h1>
-    <div class="tf-timer-controls">
-      <button class="button" id="tf-timer-reset">Reset</button>
-      <button class="button button-primary" id="tf-timer-btn">&#9654; Start</button>
-      <span class="tf-timer" id="tf-timer">00:00</span>
-    </div>
-  </div>
-
-  <div class="tf-body">
-
-    <!-- LEFT: existing plugin messages panel (context) -->
-    <aside class="tf-messages-panel">
-      <div class="tf-panel-section">
-        <div class="tf-section-label">1. Opening</div>
-        <div class="tf-msg-row"><div><div class="tf-msg-label">Announce start</div><div class="tf-msg-text">/here We are starting today's <code class="tf-inline-code">&lt;patch-testing-scrub&gt;</code> &#127881;</div></div><button class="tf-copy-btn" data-copy="/here We are starting today's <patch-testing-scrub>">Copy</button></div>
-      </div>
-      <div class="tf-panel-section">
-        <div class="tf-section-label">2. Assigning Tickets</div>
-        <div class="tf-msg-row"><div><div class="tf-msg-label">Assign</div><div class="tf-msg-text">Thank you @{username} for joining! You can start on {url}</div></div><button class="tf-copy-btn" data-copy="Thank you @{username} for joining! You can start on {url}">Copy</button></div>
-      </div>
-      <div class="tf-panel-section">
-        <div class="tf-section-label">3. Monitoring the Session</div>
-        <div class="tf-msg-row"><div><div class="tf-msg-label">Acknowledge report</div><div class="tf-msg-text">Great work @{username}, thanks for the report!</div></div><button class="tf-copy-btn" data-copy="Great work @{username}, thanks for the report!">Copy</button></div>
-      </div>
-      <div class="tf-panel-section">
-        <div class="tf-section-label">4. Closing</div>
-        <div class="tf-msg-row"><div><div class="tf-msg-label">End session</div><div class="tf-msg-text">That's the end of today's <code class="tf-inline-code">&lt;/patch-testing-scrub&gt;</code>. Thanks all!</div></div><button class="tf-copy-btn" data-copy="That's the end of today's </patch-testing-scrub>. Thanks all!">Copy</button></div>
-      </div>
-      <div class="tf-context-note">This column is the plugin as it works today, shown for context. The proposed additions are on the right.</div>
-    </aside>
-
-    <!-- RIGHT: tracker + proposed features -->
-    <div class="tf-right-col">
-      <main class="tf-tracker">
-
-        <!-- PROPOSED: ticket import -->
-        <div class="tf-import">
-          <h3>Import a ticket pool <span class="tf-proposed">Proposed</span></h3>
-          <p>Trac refuses server-side requests, so the plugin cannot fetch tickets itself. Instead it hands you a ready-made query and reads the CSV you download. It then keeps only the tickets a volunteer can actually work, and lists what it dropped and why.</p>
-          <div class="qbtns">
-            <a class="button button-small" href="https://core.trac.wordpress.org/query?status=accepted&status=assigned&status=new&status=reopened&status=reviewing&keywords=~needs-testing+has-patch&col=id&col=summary&col=status&col=keywords&col=milestone&col=priority&col=component&max=0&order=priority&format=csv" target="_blank" rel="noopener">Needs testing (Trac)</a>
-            <a class="button button-small" href="https://core.trac.wordpress.org/query?status=!closed&keywords=~good-first-bug&col=id&col=summary&col=keywords&max=0&format=csv" target="_blank" rel="noopener">Good first bugs</a>
-            <button class="button button-small button-primary" id="tf-load-sample">&#8681; Load a sample CSV</button>
-          </div>
-          <div id="tf-import-summary" class="tf-import-summary" hidden></div>
-        </div>
-
-        <div class="tf-pool-setup">
-          <div>
-            <label class="tf-pool-label" for="tf-participant-pool">Participants (one per line)</label>
-            <textarea id="tf-participant-pool" class="tf-pool-textarea" spellcheck="false" placeholder="username1&#10;username2">testahar
-mariadev
-sam_p</textarea>
-          </div>
-          <div>
-            <label class="tf-pool-label" for="tf-ticket-pool">Tickets / Issues (one per line) <span class="tf-proposed">Difficulty from keywords</span></label>
-            <textarea id="tf-ticket-pool" class="tf-pool-textarea" spellcheck="false" placeholder="Import a CSV above, or paste ticket URLs here"></textarea>
-          </div>
-        </div>
-        <p class="tf-hint">Difficulty is read from the ticket's keywords on import: <code>good-first-bug</code> &rarr; Beginner, <code>has-test-info</code> &rarr; Moderate, anything else &rarr; Advanced. Each participant also carries a level, so the assignment dropdown can match them.</p>
-
-        <div class="tf-scroll">
-        <table class="widefat tf-table">
-          <thead>
-            <tr><th>Participant</th><th>Level <span class="tf-proposed">New</span></th><th>Assigned tickets</th><th></th></tr>
-          </thead>
-          <tbody id="tf-participants-list"></tbody>
-        </table>
-        </div>
-      </main>
-
-      <!-- PROPOSED: session history + export -->
-      <section class="tf-history">
-        <div class="tf-history-head">
-          <h2>Session history &amp; recap <span class="tf-proposed">Proposed</span></h2>
-          <div class="tf-history-actions">
-            <button class="button" id="tf-export-csv">&#8681; Export CSV</button>
-            <button class="button button-primary" id="tf-build-recap">Build recap post</button>
-          </div>
-        </div>
-        <p class="tf-count" id="tf-history-count">Nothing recorded yet. Assign a ticket, then mark it reported, and it appears here.</p>
-        <div class="tf-scroll" id="tf-history-scroll" hidden>
-        <table class="widefat tf-table" id="tf-history-table">
-          <thead><tr><th>Ticket</th><th>Level</th><th>Tester</th><th>Outcome</th></tr></thead>
-          <tbody id="tf-history-body"></tbody>
-        </table>
-        </div>
-        <textarea class="tf-recap" id="tf-recap" hidden placeholder="The recap post skeleton will appear here"></textarea>
-      </section>
-
-      <div class="tf-resources">
-        <div class="tf-section-label" style="color:#6d7075">Resources &amp; Links</div>
-        <ul class="tf-resource-links">
-          <li><a href="https://make.wordpress.org/test/handbook/team-reps/patch-testing-scrub-guide/" target="_blank" rel="noopener">Handbook: Patch Testing Scrub Guide</a></li>
-          <li><a href="https://github.com/WordPress/test-handbook/issues/184" target="_blank" rel="noopener">Proposal: test-handbook #184</a></li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<div class="callout">
-  <div class="box">
-    <h2>What this demo shows, and why</h2>
-    <p style="margin:0 0 8px;color:#50575e;font-size:13px">In the 3 September test chat the team asked for two things in particular. Both are working above, marked <span class="tf-proposed">Proposed</span>:</p>
-    <ul style="font-size:13px;color:#1d2327">
-      <li><strong>Difficulty levels</strong>, so a ticket's complexity can be matched to a participant's experience. Levels are read from the ticket keywords, and the assignment dropdown sorts a participant's suitable tickets to the top and flags anything they have tested before, so nobody gets a ticket twice.</li>
-      <li><strong>Session history and export</strong> (raised by pbearne), so the outcomes can be turned into the recap post. Everything assigned and reported is recorded, exported as CSV, and drafted into a props list and notes with one click.</li>
-    </ul>
-    <p style="margin:8px 0 0;color:#50575e;font-size:13px">Ticket import is included because difficulty is read from it. Following the earlier feedback, per-source columns and milestone filtering have been dropped, and a session is treated as either Core or Gutenberg, never both. Everything is additive: with nothing imported and no levels set, the screen behaves exactly as it does today. This is a demonstration, not a pull request; I am happy to build any part the team wants as a focused PR.</p>
-  </div>
-</div>
-
-<div class="foot">Proof of concept for test-handbook #184. Built by Azhar Ali (@softglaze). Vanilla HTML, CSS and JavaScript, styled after the real ozgursar/testflow admin screen. Not affiliated with or endorsed by the WordPress project.</div>
-
-<div class="tf-toast" id="tf-toast" aria-live="polite"></div>
-
-<script>
-(function(){
-  "use strict";
-  // ---- sample data (a realistic needs-testing query) ----
-  var WORKABLE = [
-    {id:65403, sum:"Twenty Twenty-Five: navigation overlaps content on small screens", kw:"good-first-bug has-patch needs-testing"},
-    {id:65491, sum:"Media Library: keyboard focus is lost after deleting an item", kw:"good-first-bug has-test-info needs-testing"},
-    {id:64990, sum:"Docs: clarify accepted arguments for wp_enqueue_script()", kw:"good-first-bug needs-testing"},
-    {id:65600, sum:"Site Editor: a renamed template part is not saved", kw:"has-patch has-test-info needs-testing"},
-    {id:65333, sum:"Comments: nested reply link is not announced to screen readers", kw:"has-test-info needs-testing"},
-    {id:65210, sum:"Improve wp_kses() performance on very large content", kw:"has-patch needs-testing"},
-    {id:64887, sum:"REST API: term meta queries are not cached", kw:"has-patch needs-testing"},
-    {id:65128, sum:"Block bindings: escape attribute output before render", kw:"has-patch needs-testing"}
-  ];
-  var DROPPED = [
-    {id:64111, sum:"Discuss: a new default admin color scheme", reason:"Blocked on a design decision"},
-    {id:63999, sum:"Proposal: change the bundled default theme", reason:"Blocked on a maintainer decision"},
-    {id:65012, sum:"Refactor the option caching layer", reason:"Already heading for commit"},
-    {id:64777, sum:"Duplicate of #65210", reason:"Closed"}
-  ];
-  // who tested what in earlier sessions (for the repeat-prevention markers)
-  var PRIOR = { 65491:["testahar"], 65210:["mariadev","sam_p"] };
-
-  var TRAC="https://core.trac.wordpress.org/ticket/";
-  function levelOf(kw){ kw=(kw||"").toLowerCase(); if(kw.indexOf("good-first-bug")>=0) return "Beginner"; if(kw.indexOf("has-test-info")>=0) return "Moderate"; return "Advanced"; }
-
-  var state = { imported:false, tickets:[], participants:[], history:[] };
-  // history entries: {id, sum, level, name, outcome:'assigned'|'reported'}
-
-  var $ = function(s,r){ return (r||document).querySelector(s); };
-  function toast(m){ var t=$("#tf-toast"); t.textContent=m; t.classList.add("is-visible"); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove("is-visible");},1600); }
-
-  // ---- participants ----
-  function parseParticipants(){
-    var lines = $("#tf-participant-pool").value.split(/\n/).map(function(s){return s.trim();}).filter(Boolean);
-    var seen={};
-    lines.forEach(function(name){
-      if(seen[name]) return; seen[name]=1;
-      if(!state.participants.some(function(p){return p.name===name;})){
-        var lvl = name==="mariadev"?"Advanced":(name==="sam_p"?"Moderate":"Beginner");
-        state.participants.push({name:name, level:lvl, assigned:[]});
-      }
-    });
-    // drop removed
-    state.participants = state.participants.filter(function(p){ return lines.indexOf(p.name)>=0; });
-  }
-
-  function ticketById(id){ return state.tickets.filter(function(t){return t.id===id;})[0]; }
-  function assignedElsewhere(id, exceptName){
-    var names=[];
-    state.participants.forEach(function(p){ if(p.name!==exceptName && p.assigned.indexOf(id)>=0) names.push(p.name); });
-    (PRIOR[id]||[]).forEach(function(n){ if(n!==exceptName && names.indexOf(n)<0) names.push(n); });
-    return names;
-  }
-  function hadBefore(id, name){ return (PRIOR[id]||[]).indexOf(name)>=0 || false; }
-
-  function buildAssignOptions(p){
-    var order = {Beginner:0,Moderate:1,Advanced:2};
-    var pl = order[p.level];
-    var opts = state.tickets.filter(function(t){ return p.assigned.indexOf(t.id)<0; });
-    opts.sort(function(a,b){
-      var am=(a.level===p.level)?0:1, bm=(b.level===p.level)?0:1;
-      if(am!==bm) return am-bm;
-      return order[a.level]-order[b.level];
-    });
-    var html = '<option value="">Assign a ticket…</option>';
-    opts.forEach(function(t){
-      var match = (t.level===p.level);
-      var note = "";
-      if(hadBefore(t.id,p.name)) note=" · they tested this before";
-      else { var others=assignedElsewhere(t.id,p.name); if(others.length) note=" · "+others.length+" had this before"; }
-      var label = "#"+t.id+" ("+t.level+") "+t.sum;
-      if(label.length>52) label=label.slice(0,50)+"…";
-      html += '<option value="'+t.id+'"'+(match?"":' style="color:#8c8f94"')+'>'+esc(label+note)+'</option>';
-    });
-    return html;
-  }
-
-  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-
-  function renderParticipants(){
-    var tb = $("#tf-participants-list"); tb.innerHTML="";
-    if(!state.participants.length){ tb.innerHTML='<tr class="tf-empty-row"><td colspan="4">No participants yet. Add someone in the box above.</td></tr>'; return; }
-    state.participants.forEach(function(p){
-      var tr=document.createElement("tr");
-      // name
-      var tdName=document.createElement("td"); tdName.innerHTML='<strong>@'+esc(p.name)+'</strong>'; tr.appendChild(tdName);
-      // level select
-      var tdLvl=document.createElement("td");
-      var lsel=document.createElement("select"); lsel.className="tf-level-select";
-      ["Beginner","Moderate","Advanced"].forEach(function(l){ var o=document.createElement("option"); o.value=l; o.textContent=l; if(l===p.level)o.selected=true; lsel.appendChild(o); });
-      lsel.addEventListener("change",function(){ p.level=lsel.value; renderParticipants(); });
-      tdLvl.appendChild(lsel); tr.appendChild(tdLvl);
-      // assigned chips
-      var tdChips=document.createElement("td");
-      if(!p.assigned.length){ tdChips.innerHTML='<span style="color:#a7aaad;font-size:12px">—</span>'; }
-      else p.assigned.forEach(function(id){
-        var t=ticketById(id); if(!t) return;
-        var rep = state.history.some(function(h){return h.id===id&&h.name===p.name&&h.outcome==="reported";});
-        var chip=document.createElement("span"); chip.className="tf-chip"+(rep?" reported":"");
-        chip.innerHTML='<a class="tf-ticket-link" href="'+TRAC+id+'" target="_blank" rel="noopener">#'+id+'</a> <span class="lv">'+t.level+'</span>';
-        if(rep){ var ok=document.createElement("span"); ok.className="rep"; ok.textContent="✓ reported"; chip.appendChild(ok); }
-        else { var rb=document.createElement("button"); rb.className="rep"; rb.title="Mark reported"; rb.textContent="mark reported"; rb.addEventListener("click",function(){ mark(id,p.name); }); chip.appendChild(rb); }
-        var x=document.createElement("button"); x.title="Remove"; x.textContent="×"; x.addEventListener("click",function(){ unassign(id,p.name); }); chip.appendChild(x);
-        tdChips.appendChild(chip);
-      });
-      tr.appendChild(tdChips);
-      // assign dropdown
-      var tdAct=document.createElement("td");
-      var wrap=document.createElement("div"); wrap.className="tf-assign";
-      if(!state.imported){ wrap.innerHTML='<span style="color:#a7aaad;font-size:12px">import tickets first</span>'; }
-      else{
-        var sel=document.createElement("select"); sel.className="tf-assign-select"; sel.innerHTML=buildAssignOptions(p);
-        sel.addEventListener("change",function(){ if(sel.value){ assign(parseInt(sel.value,10),p.name); } });
-        wrap.appendChild(sel);
-      }
-      tdAct.appendChild(wrap); tr.appendChild(tdAct);
-      tb.appendChild(tr);
-    });
-  }
-
-  function assign(id,name){
-    var p=state.participants.filter(function(x){return x.name===name;})[0]; if(!p) return;
-    if(p.assigned.indexOf(id)<0) p.assigned.push(id);
-    var t=ticketById(id);
-    state.history.push({id:id, sum:t.sum, level:t.level, name:name, outcome:"assigned"});
-    renderParticipants(); renderHistory(); toast("Assigned #"+id+" to @"+name);
-  }
-  function unassign(id,name){
-    var p=state.participants.filter(function(x){return x.name===name;})[0]; if(!p) return;
-    p.assigned=p.assigned.filter(function(x){return x!==id;});
-    state.history=state.history.filter(function(h){return !(h.id===id&&h.name===name);});
-    renderParticipants(); renderHistory();
-  }
-  function mark(id,name){
-    state.history.forEach(function(h){ if(h.id===id&&h.name===name) h.outcome="reported"; });
-    if(!state.history.some(function(h){return h.id===id&&h.name===name;})){ var t=ticketById(id); state.history.push({id:id,sum:t.sum,level:t.level,name:name,outcome:"reported"}); }
-    renderParticipants(); renderHistory(); toast("#"+id+" marked reported");
-  }
-
-  function renderHistory(){
-    var body=$("#tf-history-body"), wrap=$("#tf-history-scroll"), count=$("#tf-history-count");
-    if(!state.history.length){ wrap.hidden=true; count.hidden=false; count.textContent="Nothing recorded yet. Assign a ticket, then mark it reported, and it appears here."; return; }
-    count.hidden=true; wrap.hidden=false; body.innerHTML="";
-    state.history.forEach(function(h){
-      var tr=document.createElement("tr");
-      tr.innerHTML='<td><a href="'+TRAC+h.id+'" target="_blank" rel="noopener">#'+h.id+'</a> '+esc(h.sum)+'</td>'+
-        '<td><span class="lvl '+h.level+'">'+h.level+'</span></td>'+
-        '<td>@'+esc(h.name)+'</td>'+
-        '<td>'+(h.outcome==="reported"?'<span style="color:#00a32a;font-weight:600">Reported</span>':'<span style="color:#646970">Assigned</span>')+'</td>';
-      body.appendChild(tr);
-    });
-  }
-
-  // ---- import ----
-  function loadSample(){
-    state.tickets = WORKABLE.map(function(t){ return {id:t.id, sum:t.sum, kw:t.kw, level:levelOf(t.kw)}; });
-    state.imported = true;
-    $("#tf-ticket-pool").value = state.tickets.map(function(t){ return "#"+t.id+"  "+t.sum+"  | "+t.level; }).join("\n");
-    var total = WORKABLE.length + DROPPED.length;
-    var s=$("#tf-import-summary"); s.hidden=false;
-    var dropList = DROPPED.map(function(d){ return '<li>#'+d.id+' '+esc(d.sum)+' &mdash; <em>'+esc(d.reason)+'</em></li>'; }).join("");
-    s.innerHTML = '<b>'+total+'</b> tickets in the query, <b>'+WORKABLE.length+'</b> workable, <b>'+DROPPED.length+'</b> dropped.'+
-      '<details class="tf-dropwrap"><summary>Show what was dropped and why</summary><ul class="tf-dropped">'+dropList+'</ul></details>'+
-      '<div style="margin-top:6px;color:#646970;font-size:12px">On the real needs-testing query today this is about 127 tickets and 73 workable. Sample shown here for the demo.</div>';
-    renderParticipants(); toast("Imported "+WORKABLE.length+" workable tickets");
-  }
-
-  // ---- export + recap ----
-  function exportCSV(){
-    if(!state.history.length){ toast("Nothing to export yet"); return; }
-    var rows=[["Ticket","URL","Summary","Level","Tester","Outcome"]];
-    state.history.forEach(function(h){ rows.push(["#"+h.id, TRAC+h.id, h.sum, h.level, "@"+h.name, h.outcome]); });
-    var csv=rows.map(function(r){ return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(","); }).join("\n");
-    var blob=new Blob([csv],{type:"text/csv"}); var a=document.createElement("a");
-    a.href=URL.createObjectURL(blob); a.download="patch-scrub-"+new Date().toISOString().slice(0,10)+".csv";
-    document.body.appendChild(a); a.click(); a.remove(); toast("CSV downloaded");
-  }
-  function buildRecap(){
-    var ta=$("#tf-recap"); ta.hidden=false;
-    var reported = state.history.filter(function(h){return h.outcome==="reported";});
-    var testers={}; state.history.forEach(function(h){ testers[h.name]=1; });
-    var names=Object.keys(testers).map(function(n){return "@"+n;});
-    var lines=[];
-    lines.push("## Patch testing scrub recap");
-    lines.push("");
-    lines.push("Thanks to everyone who joined today"+(names.length?": "+names.join(", "):"")+". 🎉");
-    lines.push("");
-    lines.push("Tickets covered:");
-    if(!state.history.length) lines.push("- (nothing assigned yet)");
-    else {
-      var seen={};
-      state.history.forEach(function(h){ if(seen[h.id])return; seen[h.id]=1;
-        var rep = reported.some(function(r){return r.id===h.id;});
-        lines.push("- #"+h.id+" "+h.sum+" — tested by @"+h.name+(rep?" — report posted":" — assigned"));
-      });
-    }
-    lines.push("");
-    lines.push("Props: "+(names.length?names.join(", "):"—"));
-    ta.value=lines.join("\n");
-    toast("Recap drafted");
-  }
-
-  // ---- wire ----
-  $("#tf-load-sample").addEventListener("click",loadSample);
-  $("#tf-participant-pool").addEventListener("input",function(){ parseParticipants(); renderParticipants(); });
-  $("#tf-export-csv").addEventListener("click",exportCSV);
-  $("#tf-build-recap").addEventListener("click",buildRecap);
-  document.querySelectorAll(".tf-copy-btn").forEach(function(b){
-    b.addEventListener("click",function(){ var t=b.getAttribute("data-copy"); if(navigator.clipboard) navigator.clipboard.writeText(t).catch(function(){}); b.classList.add("is-copied"); b.textContent="Copied"; setTimeout(function(){ b.classList.remove("is-copied"); b.textContent="Copy"; },1200); });
-  });
-  // timer
-  var tsec=0, tint=null;
-  function ptime(s){ var m=Math.floor(s/60),x=s%60; return (m<10?"0":"")+m+":"+(x<10?"0":"")+x; }
-  $("#tf-timer-btn").addEventListener("click",function(){
-    var btn=this;
-    if(tint){ clearInterval(tint); tint=null; btn.innerHTML="&#9654; Start"; }
-    else { tint=setInterval(function(){ tsec++; $("#tf-timer").textContent=ptime(tsec); },1000); btn.innerHTML="&#10073;&#10073; Pause"; }
-  });
-  $("#tf-timer-reset").addEventListener("click",function(){ if(tint){clearInterval(tint);tint=null;$("#tf-timer-btn").innerHTML="&#9654; Start";} tsec=0; $("#tf-timer").textContent="00:00"; });
-
-  parseParticipants(); renderParticipants(); renderHistory();
-})();
-</script>
+<script src="assets/js/tf-data.js"></script>
+<script src="assets/js/tf-demo-shim.js"></script>
+<script src="assets/js/tf-picker.js"></script>
+<script src="assets/js/tf-threads.js"></script>
+<script src="assets/js/overview.js"></script>
 </body>
 </html>

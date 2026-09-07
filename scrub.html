@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patch Testing Scrub - TestFlow Console (demo)</title>
+<link rel="stylesheet" href="assets/css/dashicons.min.css">
+<link rel="stylesheet" href="assets/css/demo-frame.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+<div class="tfdemo-ribbon"><strong>Proof of concept</strong> for <a href="https://github.com/WordPress/test-handbook/issues/184">test-handbook #184</a>, built by <a href="https://profiles.wordpress.org/softglaze/">@softglaze</a>. The real TestFlow Console running as a static demo. Slack sending is server-side and disabled here; everything else runs in your browser.</div>
+<div class="tfdemo-adminbar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 7.03c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .923-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/></svg><span>TestFlow Console</span><span class="who">Test Team</span></div>
+<nav class="tfdemo-nav"><a href="index.html">Overview</a><a href="scrub.html" class="current">Patch Testing Scrub</a><a href="test-chat.html">Test Chat</a><a href="tickets.html">Tickets</a><a href="scrub-plan.html">Scrub Plan</a></nav>
+<div id="wpbody-content">
+<div class="wrap tf-wrap">
+
+	<div class="tf-header">
+		<h1>Patch Testing Scrub</h1>
+		<div class="tf-timer-controls">
+			<button id="tf-timer-reset" class="button">Reset</button>
+			<button id="tf-edit-limit-btn" class="button">Edit</button>
+			<button id="tf-timer-btn" class="button button-primary">&#9654; Start</button>
+			<span id="tf-timer" class="tf-timer">00:00</span>
+		</div>
+	</div>
+
+	<div class="tf-body">
+
+		<aside class="tf-messages-panel">
+
+											
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						1. Opening																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							2–3 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Announce start</div>
+								<div class="tf-msg-text">
+								/here We are starting today&#039;s <code class="tf-inline-code">&lt;patch-testing-scrub&gt;</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="/here We are starting today&#039;s &lt;patch-testing-scrub&gt;">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Welcome</div>
+								<div class="tf-msg-text">
+								Hello everyone 👋								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Hello everyone 👋">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Invite participants</div>
+								<div class="tf-msg-text">
+								If you&#039;re around, we&#039;d love your help with testing and sharing reports.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="If you&#039;re around, we&#039;d love your help with testing and sharing reports.">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Call for testers</div>
+								<div class="tf-msg-text">
+								If you&#039;re ready to start patch testing, please reply in this thread so I can assign you a ticket. 🧵								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="If you&#039;re ready to start patch testing, please reply in this thread so I can assign you a ticket. 🧵">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row tf-msg-row--input">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">
+									Announcement									<span class="tf-optional">(optional)</span>
+								</div>
+								<div class="tf-announce-pick">
+									<select id="tf-announcement-picker" class="tf-announce-select" aria-label="Recent WordPress posts">
+										<option value="">Loading recent WordPress posts...</option>
+									</select>
+									<button type="button" id="tf-announcement-refresh" class="button button-small" title="Fetch the feeds again">Refresh</button>
+								</div>
+								<input
+									type="text"
+									id="tf-announcement"
+									class="tf-text-input"
+									placeholder="Pick one above, or type your own"
+								>
+								<div id="tf-announcement-preview" class="tf-preview tf-preview--muted">
+									Enter announcement text to preview								</div>
+							</div>
+							<button id="tf-copy-announcement" class="tf-copy-btn">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						2. Assigning Tickets																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							40–50 min						</span>
+											</div>
+
+																
+						
+						<p class="tf-section-note">Use the tracker on the right to assign tickets. The assignment message is automatically copied to your clipboard when you click Assign.</p>
+
+																	
+																			<ul class="tf-section-bullets">
+																				<li>Prioritize tickets that have a numbered milestone (e.g. Milestone: 7.1) then Future release tickets.</li>
+
+																	
+																			<li>Match ticket complexity to the participant&#039;s experience level where possible.</li>
+
+																						</ul>
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						3. Monitoring the Session																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							ongoing						</span>
+											</div>
+
+																
+						
+						<p class="tf-section-note">Keep an eye on the thread throughout the session. Acknowledge reports as they come in and offer a new ticket when someone is ready.</p>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Acknowledge report</div>
+								<div class="tf-msg-text">
+								Great work @[USERNAME], thanks for the report!								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Great work @[USERNAME], thanks for the report!">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Another ticket</div>
+								<div class="tf-msg-text">
+								Thanks @[USERNAME]! Here&#039;s another one you can try: [TICKET_URL]								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Thanks @[USERNAME]! Here&#039;s another one you can try: [TICKET_URL]">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+															
+				<div class="tf-panel-section">
+					<div class="tf-section-label">
+						4. Closing																		<span class="tf-duration-tag">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+							2–3 min						</span>
+											</div>
+
+																
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">End session</div>
+								<div class="tf-msg-text">
+								Well, this marks the end of today&#039;s <code class="tf-inline-code">&lt;/patch-testing-session&gt;</code>								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Well, this marks the end of today&#039;s &lt;/patch-testing-session&gt;">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Reassure participants</div>
+								<div class="tf-msg-text">
+								Feel free to ping me if you need to comment on anything, and also if you have not finished with your patch testing, you can continue for as long as you want, and ping me if you have any trouble finishing.								</div>
+							</div>
+							<button class="tf-copy-btn" data-msg="Feel free to ping me if you need to comment on anything, and also if you have not finished with your patch testing, you can continue for as long as you want, and ping me if you have any trouble finishing.">
+								Copy							</button>
+						</div>
+
+																	
+						
+						<div class="tf-msg-row">
+							<div class="tf-msg-content">
+								<div class="tf-msg-label">Thank participants</div>
+								<div id="tf-thanks-preview" class="tf-msg-text tf-preview--muted">
+									Add participants to generate this message								</div>
+							</div>
+							<button id="tf-copy-thanks" class="tf-copy-btn">
+								Copy							</button>
+						</div>
+
+																
+				</div>
+
+							
+		</aside>
+
+		<div class="tf-right-col">
+		<main class="tf-tracker">
+
+			<div class="tf-pool-setup">
+				<div class="tf-pool-col">
+					<label class="tf-pool-label" for="tf-participant-pool">
+						Participants (one per line)						<span class="tf-pool-hint">optional level after a pipe</span>
+					</label>
+					<textarea
+						id="tf-participant-pool"
+						class="tf-pool-textarea"
+						rows="8"
+						wrap="off"
+						placeholder="username1 | beginner
+username2 | moderate
+username3 | advanced"
+					></textarea>
+				</div>
+				<div class="tf-pool-col">
+					<label class="tf-pool-label" for="tf-ticket-pool">
+						Tickets / Issues (one URL per line)						<span class="tf-pool-hint">optional level after a pipe</span>
+					</label>
+					<textarea
+						id="tf-ticket-pool"
+						class="tf-pool-textarea"
+						rows="8"
+						wrap="off"
+						placeholder="https://core.trac.wordpress.org/ticket/65403 | beginner
+https://github.com/WordPress/gutenberg/issues/12345 | advanced"
+					></textarea>
+					<p id="tf-pool-breakdown" class="tf-pool-breakdown" aria-live="polite"></p>
+				</div>
+			</div>
+
+			<details class="tf-slack">
+				<summary class="tf-import-summary">Slack channel link</summary>
+
+				<p class="tf-import-note">
+					Links only. A plugin cannot borrow the Slack session already open in your browser, because the API needs an OAuth token whichever client you use. What this removes is hunting for the right tab. Open the channel in Slack in a browser and paste the address bar below. The workspace and channel are read out of it.				</p>
+
+				<div class="tf-slack-fields">
+					<label class="tf-pool-label tf-slack-field--wide" for="tf-slack-url">
+						Channel URL, pasted straight from the browser						<input type="text" id="tf-slack-url" class="tf-text-input" placeholder="https://app.slack.com/client/T024MFP4J/C03B0H5J0" spellcheck="false">
+					</label>
+
+					<label class="tf-pool-label tf-slack-field--wide" for="tf-slack-thread">
+						Thread links, one per line						<span class="tf-pool-hint">optional name before a pipe</span>
+						<textarea id="tf-slack-thread" class="tf-pool-textarea" rows="3" spellcheck="false" placeholder="Volunteers | https://softglaze.slack.com/archives/C0BR4T54PFE/p1787000000000000&#10;Reports | https://softglaze.slack.com/archives/C0BR4T54PFE/p1787000000111111"></textarea>
+					</label>
+				</div>
+
+				<p class="tf-thread-active">
+					<label class="tf-pool-label" for="tf-thread-picker">Active thread</label>
+					<select id="tf-thread-picker" class="tf-announce-select"></select>
+					<span class="tf-csv-note">Sends and thread reads use whichever one is selected here.</span>
+				</p>
+
+				<p id="tf-slack-detected" class="tf-slack-detected" aria-live="polite"></p>
+
+				<p>
+					<button type="button" id="tf-slack-open" class="button">Open in Slack</button>
+					<span id="tf-slack-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+
+				<hr class="tf-slack-rule">
+
+				<p class="tf-import-note">
+					<strong>Sending, optional.</strong>
+					An incoming webhook is the smallest thing a workspace admin can grant: post only, one channel, no reading of anything. It posts as the app rather than as you, and it still needs somebody with workspace access to add it. The URL is stored on this site and is never sent back to the browser.				</p>
+
+				<div class="tf-slack-fields">
+					<label class="tf-pool-label" for="tf-slack-webhook">
+						Incoming webhook URL						<input type="password" id="tf-slack-webhook" class="tf-text-input" placeholder="https://hooks.slack.com/services/..." spellcheck="false" autocomplete="off">
+					</label>
+				</div>
+
+				<p>
+					<button type="button" id="tf-webhook-save" class="button">Save webhook</button>
+					<button type="button" id="tf-webhook-clear" class="button tf-btn-danger">Remove</button>
+					<span id="tf-webhook-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+
+				<p>
+					<label class="tf-pool-label" for="tf-send-target">Default route for messages aimed at a person</label>
+					<select id="tf-send-target" class="tf-announce-select">
+						<option value="their">Follow where they came from</option>
+						<option value="channel">Channel only</option>
+						<option value="thread">Scrub thread only</option>
+						<option value="both">Scrub thread, and show it in the channel</option>
+					</select>
+					<span class="tf-csv-note">This is the starting point for each person, and every row can be changed on its own. Session messages like Opening and Closing always go to the channel, they are never threaded.</span>
+				</p>
+
+				<p>
+					<label class="tf-checkbox">
+						<input type="checkbox" id="tf-auto-send">
+						Send the assignment message automatically when I click Assign					</label>
+					<span class="tf-csv-note">Off by default. With it off, Assign copies the message as before and you send it yourself.</span>
+				</p>
+
+				<div class="tf-slack-fields">
+					<label class="tf-pool-label tf-slack-field--wide" for="tf-moderator">
+						Your Slack display name						<input type="text" id="tf-moderator" class="tf-text-input" placeholder="softglaze" spellcheck="false">
+					</label>
+
+					<label class="tf-pool-label tf-slack-field--wide" for="tf-props-url">
+						Props channel URL, optional						<input type="text" id="tf-props-url" class="tf-text-input" placeholder="https://app.slack.com/client/T0BR35JSEBT/C0PROPSCHAN" spellcheck="false">
+					</label>
+				</div>
+
+				<p id="tf-props-target" class="tf-slack-detected" aria-live="polite"></p>
+
+				<hr class="tf-slack-rule">
+
+				<p class="tf-import-note">
+					<strong>Reading the thread, optional.</strong>
+					This is the bigger ask. A bot token can read the channel, so a workspace admin has to weigh that. In your own workspace you can grant it yourself in a minute. With it saved, the plugin can pull everyone who replied to the scrub thread instead of you typing their names.				</p>
+
+				<div class="tf-slack-fields">
+					<label class="tf-pool-label tf-slack-field--wide" for="tf-slack-token">
+						Bot user OAuth token						<input type="password" id="tf-slack-token" class="tf-text-input" placeholder="xoxb-..." spellcheck="false" autocomplete="off">
+					</label>
+				</div>
+
+				<p>
+					<button type="button" id="tf-token-save" class="button">Save token</button>
+					<button type="button" id="tf-token-clear" class="button tf-btn-danger">Remove</button>
+					<span id="tf-token-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+
+				<p>
+					<label class="tf-pool-label" for="tf-pull-source">Read participants from</label>
+					<select id="tf-pull-source" class="tf-announce-select">
+						<option value="thread">The active thread</option>
+						<option value="channel">The channel</option>
+						<option value="both">Both, merged</option>
+					</select>
+				</p>
+
+				<p>
+					<button type="button" id="tf-thread-pull" class="button button-primary">Pull participants from Slack</button>
+					<label class="tf-checkbox tf-live-label">
+						<input type="checkbox" id="tf-pull-live">
+						Keep it updated every 30 seconds					</label>
+					<span id="tf-thread-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+
+				<p class="tf-import-note">
+					With a thread link it reads that thread, which is exactly the people who answered your call for volunteers. With only the channel URL it reads the last 12 hours of the channel instead, which works but picks up anyone who happened to be chatting. To get a thread link: hover the first message of the thread, More actions, Copy link.				</p>
+
+				<div id="tf-thread-report"></div>
+			</details>
+
+			<details class="tf-import">
+				<summary class="tf-import-summary">Pull Gutenberg issues directly</summary>
+
+				<p class="tf-import-note">
+					The Test Team covers more than core. The 4th Thursday session is a Gutenberg scrub, and GitHub, unlike Trac, answers a request from the plugin. So there is no export step here: pick a label and press the button.				</p>
+
+				<p>
+					<label class="tf-pool-label" for="tf-gb-label">Label and kind</label>
+					<select id="tf-gb-label" class="tf-announce-select">
+						<option value="Needs Testing">Needs Testing</option>
+						<option value="[Type] Bug">[Type] Bug</option>
+						<option value="Needs Accessibility Feedback">Needs Accessibility Feedback</option>
+						<option value="[Type] Regression">[Type] Regression</option>
+					</select>
+					<select id="tf-gb-kind" class="tf-announce-select">
+						<option value="issues">Issues</option>
+						<option value="pulls">Pull requests</option>
+					</select>
+				</p>
+
+				<p>
+					<button type="button" id="tf-gb-sync" class="button">Sync from GitHub</button>
+					<span id="tf-gb-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+			</details>
+
+			<details class="tf-import">
+				<summary class="tf-import-summary">Add tickets by id or link</summary>
+
+				<p class="tf-import-note">
+					Paste ticket numbers or full links, separated by commas, spaces or new lines. 46017, #46017 and the full Trac URL all work, and Gutenberg issue links are kept as they are.				</p>
+
+				<p class="tf-import-note">
+					<strong>One honest limit.</strong>
+					Difficulty is read from a ticket&#039;s keywords, and keywords only arrive with a CSV export, because Trac returns 403 to anything that is not a person in a browser. So tickets added this way start with no level. Add one yourself after a pipe, like 46017 | beginner, or import the CSV later and the details fill in.				</p>
+
+				<p>
+					<label class="tf-pool-label" for="tf-manual-tickets">Ticket ids or links</label>
+					<textarea id="tf-manual-tickets" class="tf-pool-textarea" rows="3" placeholder="46017, 65852 | beginner, https://core.trac.wordpress.org/ticket/64155 | advanced"></textarea>
+				</p>
+
+				<p>
+					<button type="button" id="tf-manual-add" class="button">Add these tickets</button>
+					<span id="tf-manual-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+			</details>
+
+			<details class="tf-import">
+				<summary class="tf-import-summary">Import tickets from a Trac CSV export</summary>
+
+				<p class="tf-import-note">
+					Trac refuses machine requests, so the plugin cannot fetch a query itself. It can hand you the query though. Click a name below to see the tickets, or click download CSV to get the file, then drop that file in here. The columns are already chosen for you.				</p>
+
+				<ol id="tf-csv-presets" class="tf-csv-presets"></ol>
+
+				<p class="tf-import-note">
+					If Trac shows a login screen, sign in and click the link again. Levels come from keywords: good-first-bug is Beginner, has-test-info is Moderate, anything else is Advanced.				</p>
+
+				<p>
+					<label class="tf-checkbox">
+						<input type="checkbox" id="tf-import-only-ready" checked>
+						Only keep tickets a volunteer can actually work					</label>
+					<span class="tf-csv-note">Drops closed tickets, anything waiting on a design or maintainer decision, anything already heading for commit, and anything with neither a patch nor written test steps. Everything dropped is listed with the reason.</span>
+				</p>
+
+				<p>
+					<label class="tf-pool-label" for="tf-import-csv-file">CSV file</label>
+					<input type="file" id="tf-import-csv-file" accept=".csv,text/csv,text/plain">
+				</p>
+
+				<p>
+					<label class="tf-pool-label" for="tf-import-csv-text">or paste the CSV</label>
+					<textarea id="tf-import-csv-text" class="tf-pool-textarea" rows="5" placeholder="id,summary,status,keywords,milestone,priority,type,component,owner"></textarea>
+				</p>
+
+				<p>
+					<button type="button" id="tf-import-csv-btn" class="button">Import pasted CSV</button>
+					<span id="tf-import-status" class="tf-import-status" aria-live="polite"></span>
+				</p>
+
+				<p class="tf-progress-wrap" id="tf-progress-wrap" hidden>
+					<progress id="tf-import-progress" value="0" max="100"></progress>
+					<span id="tf-progress-label" class="tf-csv-note"></span>
+				</p>
+
+				<div id="tf-import-report"></div>
+			</details>
+
+			<div class="tf-tracker-scroll">
+				<table class="widefat tf-table">
+					<thead>
+						<tr>
+							<th class="tf-col-person">Participant</th>
+							<th class="tf-col-level">Level</th>
+							<th class="tf-col-assigned">Assigned Tickets</th>
+							<th class="tf-col-route">Replies go to</th>
+							<th class="tf-col-actions"></th>
+						</tr>
+					</thead>
+					<tbody id="tf-participants-list">
+						<tr class="tf-empty-row">
+							<td colspan="5">
+								No participants yet. Add someone above to get started.							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<details class="tf-history">
+				<summary class="tf-import-summary">Assignment history</summary>
+
+				<p class="tf-import-note">
+					What this moderator assigned through this plugin, in this browser. It survives Reset Session. It does not know about testing done directly on Trac.				</p>
+
+				<p id="tf-history-summary" class="tf-history-summary" aria-live="polite"></p>
+				<div id="tf-history-list"></div>
+
+				<p>
+					<button type="button" id="tf-history-export" class="button">Export as CSV</button>
+					<button type="button" id="tf-history-clear" class="button tf-btn-danger">Clear history</button>
+				</p>
+			</details>
+
+			<div class="tf-props">
+				<div class="tf-section-label">Props</div>
+				<p id="tf-props-preview" class="tf-preview tf-preview--muted"></p>
+				<p>
+					<button type="button" id="tf-props-copy" class="button" disabled>Copy props</button>
+					<button type="button" id="tf-props-send" class="button button-primary" disabled>Send props</button>
+					<span class="tf-csv-note">Built from people who were actually assigned or completed a ticket, not everyone in the room.</span>
+				</p>
+			</div>
+
+			<div class="tf-section-label tf-clipboard-label">Your Clipboard</div>
+			<div id="tf-clipboard-bar" class="tf-clipboard-bar">
+				<span id="tf-clipboard-text" class="tf-clipboard-text tf-clipboard-text--empty">Nothing copied yet</span>
+				<button id="tf-clipboard-send-btn" class="tf-clipboard-slack-btn" hidden title="Post this message to the configured Slack channel">
+					Send to Slack				</button>
+				<button id="tf-clipboard-slack-btn" class="tf-clipboard-slack-btn" hidden title="Open the channel or thread in Slack">
+					Open Slack				</button>
+				<button id="tf-clipboard-copy-btn" class="tf-clipboard-copy-btn" title="Copy again">
+					<span class="dashicons dashicons-clipboard" aria-hidden="true"></span>
+				</button>
+			</div>
+
+		</main>
+
+		<p class="tf-overview-pointer">
+			Handbook links, ticket queries, moderator tips and the brief for new testers all live on <a href="http://localhost:8889/wp-admin/admin.php?page=testflow-console">the Overview screen</a>.		</p>
+
+		</div><!-- .tf-right-col -->
+
+	</div>
+
+	<div class="tf-session-footer">
+		<button id="tf-reset-session-btn" class="button">
+			Reset timer and lists		</button>
+		<button id="tf-new-session-btn" class="button tf-btn-danger">
+			Start a clean session		</button>
+		<p class="tf-csv-note">
+			A clean session empties participants, tickets, the pulled list, the timer, the imported report and the announcement box. It keeps your Slack token, webhook, channel and thread links, and it keeps the assignment history so repeat detection still works across sessions. Clear history separately in the history panel if you really want that gone.		</p>
+	</div>
+
+	<div id="tf-toast" class="tf-toast" aria-live="polite"></div>
+
+</div>
+
+</div>
+<script src="assets/js/tf-data.js"></script>
+<script src="assets/js/tf-demo-shim.js"></script>
+<script src="assets/js/tf-picker.js"></script>
+<script src="assets/js/tf-threads.js"></script>
+<script src="assets/js/scrub-session.js"></script>
+</body>
+</html>

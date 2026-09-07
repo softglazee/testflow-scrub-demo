@@ -1,16 +1,21 @@
-# TestFlow patch-scrub demo (proof of concept)
+# TestFlow Console — full demo (proof of concept)
 
-A clickable demo of the additions proposed in
-[test-handbook #184](https://github.com/WordPress/test-handbook/issues/184) for the
-[ozgursar/testflow](https://github.com/ozgursar/testflow) plugin.
+A live, clickable demo of the **TestFlow Console** for
+[test-handbook #184](https://github.com/WordPress/test-handbook/issues/184), built by
+Azhar Ali ([@softglaze](https://profiles.wordpress.org/softglaze/)). It is a Console build of
+[ozgursar/testflow](https://github.com/ozgursar/testflow) adding Trac CSV import, ticket-to-participant
+difficulty matching, session history/export, a scrub-plan generator, and optional Slack sending.
 
 **Live demo:** see the GitHub Pages URL for this repository.
 
-It shows the Patch Testing Scrub screen with the two features the Test Team asked for on
-3 September: ticket difficulty levels (matched to a participant's level, with repeat prevention)
-and session-history export (recorded outcomes, CSV export, and a one-click recap post), plus the
-ticket import that difficulty is read from. Everything marked "Proposed" is new; the rest is the
-plugin as it is today.
+All five screens are the plugin's real front-end (its own CSS and JavaScript), hosted as a static site:
 
-Demonstration only, styled after the real plugin's admin screen. Not affiliated with or endorsed
-by the WordPress project. Built by Azhar Ali ([@softglaze](https://profiles.wordpress.org/softglaze/)).
+- **Overview** — landing, pre-flight checklist, walkthrough
+- **Patch Testing Scrub** — the main tracker: ticket import, difficulty levels, assignment, session history
+- **Test Chat** — attendance, agenda, announcements, meeting notes
+- **Tickets** — the imported ticket pool
+- **Scrub Plan** — a plan a first-time moderator can hand to a team lead
+
+Slack sending talks to a WordPress REST endpoint, which is server-side and therefore disabled on this
+static host; every other function runs in the browser (localStorage). Demonstration only, not a plugin
+release, and not affiliated with or endorsed by the WordPress project.

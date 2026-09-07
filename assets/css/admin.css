@@ -1,0 +1,2082 @@
+/* ── Overview ────────────────────────────────────────── */
+
+.tf-overview-intro {
+  font-size: 14px;
+  color: #50575e;
+  margin: 0 0 24px;
+}
+
+.tf-session-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+}
+
+.tf-session-card {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 24px;
+}
+
+.tf-session-card h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.tf-session-card p {
+  color: #50575e;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+/* ── Layout ─────────────────────────────────────────── */
+
+.tf-wrap {
+  max-width: 1400px;
+  padding-right: 20px;
+}
+
+.tf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 16px;
+}
+
+/* ── Timer ───────────────────────────────────────────── */
+
+.tf-timer-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tf-timer {
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+  color: #1d2327;
+  min-width: 72px;
+}
+
+.tf-timer.is-warning {
+  color: #d63638;
+}
+
+#tf-timer[contenteditable='true'] {
+  outline: none;
+  border-bottom: 2px solid #2271b1;
+  cursor: text;
+}
+
+/* ── Body grid ───────────────────────────────────────── */
+
+.tf-body {
+  display: grid;
+  /* minmax(0, 1fr), not 1fr. A bare 1fr keeps an automatic min-content floor,
+     and the tracker table's min-content is wide enough that the right column
+     took 891 of 1203px and starved the left one down to 296px. */
+  /* Not equal halves. The left panel is mostly prose and reads fine at ~500px;
+     the tracker carries three selects and two buttons per row and does not.
+     Splitting 42/58 is what stops the table needing a scrollbar at 1440. */
+  grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* Same reason, one level down: grid and flex children will not shrink past
+   their content unless told they may. */
+.tf-body > * {
+  min-width: 0;
+}
+
+/* ── Messages panel ──────────────────────────────────── */
+
+.tf-messages-panel {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tf-panel-section {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f1;
+}
+
+.tf-panel-section:last-child {
+  border-bottom: none;
+}
+
+.tf-section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.tf-msg-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f6f7f7;
+}
+
+.tf-msg-row--input {
+  align-items: flex-start;
+}
+
+.tf-msg-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tf-msg-row--input .tf-msg-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.tf-msg-row--input .tf-text-input,
+.tf-msg-row--input .tf-preview {
+  width: 95%;
+  box-sizing: border-box;
+  margin-top: 6px;
+}
+
+.tf-msg-row--stacked {
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f1;
+  border-bottom: none;
+}
+
+.tf-duration-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #a285a8;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.tf-duration-tag svg {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.tf-section-note {
+  font-size: 12px;
+  color: #00a32a;
+  margin: 10px 0 0;
+}
+
+.tf-section-bullets {
+  font-size: 12px;
+  color: #00a32a;
+  margin: 6px 0 0 16px;
+  padding: 0;
+  list-style: disc;
+}
+
+.tf-section-bullets li {
+  margin-bottom: 3px;
+}
+
+.tf-msg-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #ababab;
+  margin-bottom: 2px;
+}
+
+.tf-optional {
+  font-style: italic;
+}
+
+.tf-msg-text {
+  color: #1d2327;
+  line-height: 1.5;
+}
+
+.tf-inline-code {
+  background: #f0f0f1;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-family: monospace;
+  font-size: 0.9em;
+  color: #1d2327;
+}
+
+/* ── Copy buttons ────────────────────────────────────── */
+
+.tf-copy-btn {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 11px;
+  background: #f6f7f7;
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--wp-admin-theme-color);
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.tf-copy-btn:hover {
+  background: var(--wp-admin-theme-color);
+  color: #fff;
+  border-color: var(--wp-admin-theme-color);
+}
+
+.tf-copy-btn.is-copied {
+  background: #00a32a;
+  color: #fff;
+  border-color: #00a32a;
+}
+
+.tf-copy-btn--full {
+  width: 100%;
+  text-align: center;
+}
+
+/* ── Inputs ──────────────────────────────────────────── */
+
+.tf-text-input {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.tf-assign-inputs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tf-assign-inputs .tf-text-input {
+  width: 50%;
+}
+
+.tf-assign-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tf-assign-btns-row {
+  display: flex;
+  gap: 6px;
+}
+
+.tf-assign-btns-row .tf-copy-btn {
+  flex: 1;
+  text-align: center;
+}
+
+/* ── Preview areas ───────────────────────────────────── */
+
+.tf-preview {
+  font-size: 12px;
+  color: #1d2327;
+  background: #f0f6fc;
+  border: 1px solid #b8d4f0;
+  border-radius: 3px;
+  padding: 8px 10px;
+  line-height: 1.5;
+  min-height: 34px;
+  word-break: break-word;
+}
+
+.tf-preview--muted {
+  background: #f6f7f7;
+  border-color: #dcdcde;
+  color: #646970;
+  font-style: italic;
+}
+
+/* ── Participant tracker ─────────────────────────────── */
+
+.tf-tracker {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+/* The table is the widest thing on the page. If it ever outgrows its column
+   again it scrolls inside this card rather than pushing the whole document
+   sideways, which is how it broke the layout before. */
+.tf-tracker-scroll {
+  overflow-x: auto;
+  margin: 0 -4px;
+  padding: 0 4px;
+}
+
+.tf-tracker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.tf-tracker-header h2 {
+  margin: 0;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.tf-add-participant {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  max-width: 380px;
+}
+
+.tf-add-participant .tf-text-input {
+  font-size: 13px;
+  padding: 6px 10px;
+}
+
+/* ── Table ───────────────────────────────────────────── */
+
+/* Fixed layout so the declared column widths below are actually obeyed.
+   With auto layout the browser sized columns from content and the widths
+   were only ever suggestions, which is how Assigned Tickets ended up at
+   76px next to a 331px actions column. */
+.tf-table {
+  font-size: 13px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Cells default to content-box, so every declared column width silently
+   gained its own left and right padding. Five columns of that added 102px
+   and the table overflowed its card by exactly that much. */
+.tf-table th,
+.tf-table td {
+  box-sizing: border-box;
+}
+
+.tf-table th {
+  font-size: 12px;
+  background: #f0f0f1;
+}
+
+.tf-table tbody td {
+  border-bottom: 1px solid #f5f5f5 !important;
+  vertical-align: middle;
+}
+
+.tf-table th.tf-col-person {
+  width: 100px;
+  min-width: 88px;
+}
+
+.tf-table tbody td:first-child {
+  max-width: 104px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tf-ticket-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.tf-table tbody tr:hover td {
+  background: #f5f5f5;
+}
+
+.tf-empty-row td {
+  text-align: center;
+  color: #646970;
+  padding: 32px !important;
+  font-style: italic;
+}
+
+/* ── Status badges ───────────────────────────────────── */
+
+.tf-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.tf-badge--joined {
+  background: #f0f0f1;
+  color: #646970;
+}
+.tf-badge--testing {
+  background: #dff0f9;
+  color: #007cba;
+}
+.tf-badge--reported {
+  background: #edfaef;
+  color: #00a32a;
+}
+.tf-badge--done {
+  background: #f0f0f1;
+  color: #646970;
+}
+
+/* ── Row actions ─────────────────────────────────────── */
+
+/* Wrapping is what lets the whole table fit half the page: the select takes
+   the first line and Check and Assign drop underneath when there is no room
+   for all three. nowrap made the column demand its full width forever. */
+.tf-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+.tf-inline-ticket-select,
+.tf-row-actions .button {
+  align-self: center;
+  min-height: 26px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Full basis, so the select always claims its own line and Check and Assign
+   sit underneath it. Side by side the three of them needed 223px of column. */
+.tf-inline-ticket-select {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 26px;
+  padding: 0 6px;
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  font-size: 12px;
+  vertical-align: middle;
+  min-height: 0 !important;
+  line-height: 1 !important;
+}
+
+.tf-tracker select,
+.tf-row-actions .button {
+  font-size: 12px;
+}
+
+.tf-ticket-link {
+  text-decoration: none;
+}
+
+.tf-ticket-link:hover {
+  text-decoration: underline;
+}
+
+.tf-ticket-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #d63638;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1;
+  padding: 0.5px 0 1.5px 0;
+  vertical-align: middle;
+  margin: 0 1px 0 3px;
+}
+
+.tf-ticket-remove-btn:hover {
+  background: #b32d2e;
+}
+
+.tf-btn-done {
+  color: #646970 !important;
+}
+
+.tf-btn-remove {
+  color: #d63638 !important;
+}
+
+/* ── Toast ───────────────────────────────────────────── */
+
+.tf-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: #1d2327;
+  color: #fff;
+  padding: 9px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  pointer-events: none;
+}
+
+.tf-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Pool setup ──────────────────────────────────────── */
+
+.tf-pool-setup {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f1;
+}
+
+.tf-pool-label {
+  display: block;
+  font-size: 12px;
+  color: #646970;
+  margin-bottom: 4px;
+}
+
+.tf-pool-textarea {
+  width: 100%;
+  font-size: 12px;
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  padding: 6px 8px;
+  resize: vertical;
+  box-sizing: border-box;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ── Session footer ──────────────────────────────────── */
+
+.tf-session-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f1;
+}
+
+.tf-btn-danger {
+  color: #d63638 !important;
+  border-color: #d63638 !important;
+}
+
+.tf-btn-danger:hover {
+  background: #d63638 !important;
+  color: #fff !important;
+}
+
+/* ── Clipboard bar ───────────────────────────────────── */
+
+.tf-var-field {
+  margin-bottom: 12px;
+}
+
+.tf-var-field:last-child {
+  margin-bottom: 0;
+}
+
+.tf-resources {
+  margin-top: 24px;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.tf-resources .tf-section-label {
+  color: #6d7075;
+}
+
+.tf-resource-links {
+  margin: 6px 0 0 16px;
+  padding: 0;
+  list-style: disc;
+}
+
+.tf-resource-links li {
+  margin-bottom: 4px;
+  color: #8c8f94;
+}
+
+.tf-resource-links a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tf-resource-links a:hover {
+  color: #50575e;
+  text-decoration: underline;
+}
+
+.tf-clipboard-label {
+  margin-top: 20px;
+  margin-bottom: 6px;
+}
+
+.tf-clipboard-bar {
+  background: #1d2327;
+  border-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.tf-clipboard-text {
+  flex: 1;
+  font-family: monospace;
+  font-size: 13px;
+  color: #e2e4e7;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.tf-clipboard-text--empty {
+  color: #7a848e;
+  font-style: italic;
+}
+
+.tf-clipboard-copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #fff;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+}
+
+.tf-clipboard-copy-btn:hover {
+  opacity: 1;
+}
+
+.tf-clipboard-copy-btn .dashicons {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Sticky header + right column (desktop only) ────── */
+
+@media (min-width: 1101px) {
+  /* Sticky so the timer stays in view while scrolling a long session. The
+     overview has no timer, so it opts out and scrolls normally. */
+  .tf-header {
+    position: sticky;
+    top: 32px;
+    background: #f0f0f1;
+    z-index: 100;
+  }
+
+  .tf-overview .tf-header {
+    position: static;
+  }
+
+  .tf-right-col {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .tf-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .tf-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .tf-pool-setup {
+    grid-template-columns: 1fr;
+  }
+
+  .tf-row-actions .button {
+    font-size: 12px !important;
+    padding: 4px 8px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    line-height: 1.4 !important;
+    white-space: nowrap;
+  }
+
+  .tf-inline-ticket-select {
+    height: 26px !important;
+    font-size: 12px !important;
+    min-height: 0 !important;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .tf-table tbody td:first-child {
+    max-width: 80px;
+  }
+}
+
+/* ── Level matching ──────────────────────────────────────────── */
+
+.tf-pool-hint {
+  float: right;
+  font-style: italic;
+  color: #8a8f94;
+}
+
+.tf-table th.tf-col-level {
+  width: 110px;
+  min-width: 98px;
+}
+
+/* Both columns previously had no width at all. Assigned Tickets lost the
+   argument and collapsed to 76px, which wrapped its placeholder one word to
+   a line and pushed every row to 119px tall. */
+.tf-table th.tf-col-assigned {
+  width: 124px;
+  min-width: 106px;
+}
+
+.tf-table th.tf-col-actions {
+  width: 180px;
+  min-width: 150px;
+}
+
+.tf-assigned-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.tf-assigned-idle {
+  color: #646970;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* min-width matters: without it the wider Assigned Tickets cell starves this
+   column and the select collapses to an unreadable sliver. */
+/* 96px, not 86. "Advanced" plus the dropdown arrow measures 87, so the old
+   floor clipped the longest option by a single pixel. */
+.tf-level-select {
+  width: 100%;
+  min-width: 96px;
+  max-width: 106px;
+  font-size: 12px;
+  height: 28px;
+  line-height: 1;
+}
+
+/* A ticket whose level does not match the participant's. Still selectable,
+   just sorted lower and visually quieter, so the moderator can override. */
+.tf-opt-offlevel {
+  color: #8a8f94;
+}
+
+.tf-import {
+  margin: 0 0 16px;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  background: #fff;
+  padding: 0 12px;
+}
+
+.tf-import[open] {
+  padding-bottom: 8px;
+}
+
+.tf-import-summary {
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1d2327;
+}
+
+.tf-import-note {
+  font-size: 12px;
+  color: #646970;
+  margin: 0 0 12px;
+}
+
+.tf-import-status {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #646970;
+}
+
+#tf-import-csv-text {
+  margin-top: 4px;
+}
+
+/* The Level column adds a fourth cell, which pushes the table's min-content
+   width past a narrow viewport and drags the whole layout wide. Below the
+   WordPress admin breakpoint, let the table scroll inside itself instead.
+   Desktop layout is untouched. */
+@media (max-width: 782px) {
+  .tf-messages-panel,
+  .tf-right-col,
+  .tf-tracker {
+    min-width: 0;
+  }
+
+  .tf-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  /* Below this width the table itself is the scroller, so the wrapper must
+     stand down or the row gets two horizontal scrollbars stacked. */
+  .tf-tracker-scroll {
+    overflow-x: visible;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* The row is a flex line of message plus Copy and Send. At phone widths the
+     message alone fills it, so without wrapping the two buttons sat off the
+     side of the screen where nothing could scroll to them. */
+  .tf-msg-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tf-msg-content {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .tf-msg-actions {
+    margin-left: 0;
+  }
+
+  .tf-msg-row--input .tf-text-input,
+  .tf-msg-row--input .tf-preview {
+    width: 100%;
+  }
+
+  .tf-announce-pick {
+    width: 100%;
+  }
+}
+
+/* ── Assignment history ──────────────────────────────────────── */
+
+.tf-history {
+  /* Top margin so it does not sit flush against the participant table. */
+  margin: 18px 0 16px;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  background: #fff;
+  padding: 0 12px;
+}
+
+.tf-history[open] {
+  padding-bottom: 8px;
+}
+
+.tf-history-summary {
+  font-size: 12px;
+  color: #1d2327;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.tf-history-note {
+  font-size: 12px;
+  color: #646970;
+  margin: 8px 0 0;
+}
+
+.tf-history-table {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.tf-history-table th,
+.tf-history-table td {
+  padding: 4px 8px;
+}
+
+/* A ticket this participant already had in an earlier session. Still
+   selectable, sorted to the bottom, and the Assign button asks first. */
+.tf-opt-repeat {
+  font-style: italic;
+}
+
+@media (max-width: 782px) {
+  .tf-history-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* ── Done flow and Slack links ───────────────────────────────── */
+
+.tf-ticket-done-btn {
+  margin-left: 6px;
+  padding: 1px 7px;
+  font-size: 11px;
+  line-height: 1.6;
+  border: 1px solid #2271b1;
+  border-radius: 3px;
+  background: #f0f6fc;
+  color: #2271b1;
+  cursor: pointer;
+}
+
+.tf-ticket-done-btn:hover {
+  background: #2271b1;
+  color: #fff;
+}
+
+.tf-ticket-idle {
+  color: #646970;
+  font-style: italic;
+}
+
+.tf-done-chip {
+  display: inline-block;
+  margin-left: 0;
+  padding: 1px 8px;
+  font-size: 11px;
+  border-radius: 9px;
+  background: #edfaef;
+  color: #00713b;
+  border: 1px solid #b8e6c4;
+}
+
+.tf-status {
+  display: inline-block;
+  padding: 0 6px;
+  font-size: 11px;
+  border-radius: 9px;
+  background: #f0f0f1;
+  color: #646970;
+}
+
+.tf-status--done {
+  background: #edfaef;
+  color: #00713b;
+}
+
+.tf-slack {
+  margin: 0 0 16px;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  background: #fff;
+  padding: 0 12px;
+}
+
+.tf-slack[open] {
+  padding-bottom: 8px;
+}
+
+.tf-slack-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.tf-slack-fields label {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.tf-slack-fields .tf-text-input {
+  width: 100%;
+  margin-top: 2px;
+}
+
+.tf-clipboard-slack-btn {
+  margin-right: 8px;
+  padding: 2px 10px;
+  font-size: 11px;
+  border: 1px solid #50575e;
+  border-radius: 3px;
+  background: transparent;
+  color: #f0f0f1;
+  cursor: pointer;
+}
+
+.tf-clipboard-slack-btn:hover {
+  background: #2271b1;
+  border-color: #2271b1;
+}
+
+.tf-slack-rule {
+  border: 0;
+  border-top: 1px solid #f0f0f1;
+  margin: 12px 0;
+}
+
+.tf-slack-field--wide {
+  flex: 1 1 320px;
+}
+
+.tf-slack-detected {
+  font-size: 12px;
+  color: #646970;
+  margin: 0 0 8px;
+}
+
+/* ── CSV presets, progress and the import report ─────────────── */
+
+.tf-csv-presets {
+  margin: 0 0 12px 20px;
+  font-size: 12px;
+}
+
+.tf-csv-presets li {
+  margin-bottom: 6px;
+}
+
+.tf-csv-download {
+  font-size: 11px;
+  padding: 1px 6px;
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.tf-csv-note {
+  display: block;
+  color: #646970;
+  font-size: 11px;
+}
+
+.tf-checkbox {
+  font-size: 12px;
+  color: #1d2327;
+}
+
+.tf-progress-wrap {
+  margin: 8px 0;
+}
+
+#tf-import-progress {
+  width: 100%;
+  height: 8px;
+}
+
+.tf-import-subhead {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+
+.tf-import-table {
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.tf-import-table th,
+.tf-import-table td {
+  padding: 4px 8px;
+}
+
+.tf-cell-summary {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tf-omitted {
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-bottom: 8px;
+  background: #fcfcfc;
+}
+
+.tf-omitted[open] {
+  padding-bottom: 8px;
+}
+
+.tf-omitted-row {
+  font-size: 12px;
+  color: #646970;
+  margin: 6px 0;
+}
+
+@media (max-width: 782px) {
+  .tf-import-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+.tf-thread-handle {
+  width: 100%;
+  max-width: 180px;
+  font-size: 12px;
+}
+
+#tf-thread-report {
+  margin-top: 8px;
+}
+
+/* ── Send buttons and message detail ─────────────────────────── */
+
+/* Keep Copy and Send together on the right instead of Copy drifting with the
+   text width. The row is a flex container, so the pair needs its own box. */
+.tf-msg-row {
+  align-items: flex-start;
+}
+
+.tf-msg-actions {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+  margin-left: auto;
+  align-items: center;
+}
+
+.tf-send-btn {
+  margin-left: 0;
+  padding: 2px 9px;
+  font-size: 11px;
+  border: 1px solid #2271b1;
+  border-radius: 3px;
+  background: #2271b1;
+  color: #fff;
+  cursor: pointer;
+}
+
+.tf-send-btn:disabled {
+  background: #f0f0f1;
+  border-color: #c3c4c7;
+  color: #a7aaad;
+  cursor: not-allowed;
+}
+
+.tf-msg-toggle {
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  background: #fff;
+  font-size: 11px;
+  padding: 1px 8px;
+  cursor: pointer;
+}
+
+.tf-msg-detail td {
+  background: #fbfbfc;
+}
+
+.tf-msg-list {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.tf-msg-list li {
+  margin-bottom: 4px;
+  display: flex;
+  gap: 8px;
+}
+
+.tf-msg-when {
+  color: #646970;
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.tf-msg-body {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.tf-reply-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.tf-reply-box {
+  flex: 1 1 auto;
+  font-size: 12px;
+}
+
+/* ── Announcement picker and props ───────────────────────────── */
+
+/* 95% to match the text input and the preview stacked underneath. At full
+   width the picker row overhung both of them by the scrollbar's worth. */
+.tf-announce-pick {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+  width: 95%;
+  box-sizing: border-box;
+}
+
+.tf-announce-select {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12px;
+  max-width: 100%;
+}
+
+.tf-props {
+  margin: 16px 0;
+  padding: 10px 12px;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.tf-props .tf-preview {
+  margin: 6px 0 10px;
+}
+
+.tf-live-label {
+  margin-left: 12px;
+}
+
+.tf-thread-active {
+  margin-top: 4px;
+}
+
+/* ── Per person routing ──────────────────────────────────────── */
+
+.tf-table th.tf-col-route {
+  width: 128px;
+  min-width: 110px;
+}
+
+.tf-route-select {
+  width: 100%;
+  min-width: 106px;
+  max-width: 130px;
+  font-size: 12px;
+  height: 28px;
+  line-height: 1;
+}
+
+.tf-route-origin {
+  display: block;
+  font-size: 11px;
+  color: #646970;
+  margin-top: 2px;
+}
+
+/* ── Tickets table ───────────────────────────────────────────── */
+
+.tf-body--single {
+  display: block;
+}
+
+.tf-tickets-table {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* One heading per source, so a Gutenberg table never reads as a Trac one. */
+.tf-tickets-group {
+  margin: 22px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d2327;
+  border-bottom: 1px solid #dcdcde;
+  padding-bottom: 4px;
+}
+
+.tf-tickets-group:first-child {
+  margin-top: 8px;
+}
+
+.tf-pool-breakdown {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #50575e;
+  min-height: 16px;
+}
+
+.tf-tickets-table th,
+.tf-tickets-table td {
+  padding: 5px 8px;
+  vertical-align: top;
+}
+
+.tf-cell-summary-wide {
+  max-width: 420px;
+}
+
+@media (max-width: 1200px) {
+  .tf-tickets-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* ── wp.org identity ─────────────────────────────────────────── */
+
+.tf-wporg-link {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 11px;
+}
+
+.tf-wporg-badge {
+  display: block;
+  font-size: 10px;
+  color: #00713b;
+  margin-top: 2px;
+}
+
+/* ── Overview ────────────────────────────────────────────────── */
+
+.tf-overview .tf-session-cards {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  max-width: none;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tf-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.tf-overview-grid > * {
+  min-width: 0;
+}
+
+.tf-status-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin: 0 0 20px;
+}
+
+.tf-status-card {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tf-status-key {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: #646970;
+}
+
+.tf-status-value {
+  font-size: 20px;
+  line-height: 1.2;
+  color: #1d2327;
+}
+
+/* Green only where something is genuinely live, so the colour keeps meaning. */
+.tf-status-value.is-live {
+  color: #00713b;
+}
+
+.tf-status-sub {
+  font-size: 11px;
+  color: #646970;
+  line-height: 1.4;
+}
+
+.tf-overview-panel {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.tf-overview-panel h2 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+.tf-overview-sub {
+  margin: 16px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d2327;
+}
+
+.tf-overview-list,
+.tf-recent-list {
+  margin: 0 0 10px 18px;
+  padding: 0;
+  color: #50575e;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.tf-overview-list li,
+.tf-recent-list li {
+  margin-bottom: 6px;
+}
+
+.tf-recent-list {
+  list-style: none;
+  margin-left: 0;
+}
+
+.tf-overview-note {
+  font-size: 12px;
+  color: #646970;
+  line-height: 1.5;
+  margin: 8px 0;
+}
+
+.tf-overview-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.tf-card-state {
+  font-size: 12px;
+  color: #2271b1;
+  margin: 0 0 12px;
+  min-height: 16px;
+}
+
+/* ── Checklist ───────────────────────────────────────────────── */
+
+.tf-checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.tf-checklist li {
+  position: relative;
+  padding: 5px 0 5px 26px;
+  color: #50575e;
+  border-bottom: 1px solid #f0f0f1;
+}
+
+.tf-checklist li:last-child {
+  border-bottom: none;
+}
+
+.tf-checklist li::before {
+  position: absolute;
+  left: 2px;
+  top: 5px;
+  font-weight: 600;
+}
+
+.tf-checklist li.is-done::before {
+  content: "\2713";
+  color: #00713b;
+}
+
+.tf-checklist li.is-done {
+  color: #1d2327;
+}
+
+.tf-checklist li.is-todo::before {
+  content: "\25cb";
+  color: #b32d2e;
+}
+
+/* Not a failure, just something this plugin has no way to look up. */
+.tf-checklist li.is-unknown::before {
+  content: "?";
+  color: #996800;
+}
+
+.tf-check-note {
+  color: #996800;
+}
+
+@media (max-width: 1100px) {
+  .tf-overview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── Test Chat: attendance and notes ─────────────────────────── */
+
+.tf-attendance-list {
+  margin: 6px 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+.tf-attendance-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid #f0f0f1;
+}
+
+.tf-attendance-list li:last-child {
+  border-bottom: none;
+}
+
+.tf-attendance-list label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.tf-attendance-real,
+.tf-attendance-count {
+  font-size: 11px;
+  color: #646970;
+}
+
+.tf-attendance-count {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* Preformatted so the notes are copied exactly as they will be pasted. */
+.tf-notes-out {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  background: #f6f7f7;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.tf-notes-out:empty {
+  display: none;
+}
+
+.tf-slack-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 0;
+}
+
+/* A select inside one of these field labels sizes itself to its widest
+   option, because the label is a flex item and not a flex container, so the
+   flex rules on .tf-announce-select never applied. Pin it to the label. */
+.tf-slack-fields label {
+  min-width: 0;
+}
+
+.tf-slack-fields select,
+.tf-slack-fields input,
+.tf-slack-fields textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Picker ──────────────────────────────────────────────────── */
+
+.tf-picker {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Kept in the DOM and kept authoritative. Everything else reads its value. */
+.tf-picker-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tf-picker-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 30px;
+  padding: 4px 8px;
+  background: #fff;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #2c3338;
+  cursor: pointer;
+  text-align: left;
+}
+
+.tf-picker-button:hover {
+  border-color: #2271b1;
+}
+
+.tf-picker-button:focus-visible {
+  outline: 2px solid #2271b1;
+  outline-offset: 0;
+}
+
+.tf-picker-button[disabled] {
+  background: #f0f0f1;
+  color: #8c8f94;
+  cursor: default;
+}
+
+.tf-picker-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tf-picker-caret {
+  flex: 0 0 auto;
+  color: #50575e;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* The whole point: a panel the page owns, so it cannot outgrow its column
+   or run off the bottom of the screen the way native option lists do. */
+.tf-picker-panel {
+  position: absolute;
+  z-index: 200;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 3px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .14);
+}
+
+.tf-picker-list {
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.tf-picker-option {
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #2c3338;
+  cursor: pointer;
+  /* Long feed titles wrap instead of forcing the panel wider. */
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.tf-picker-option.is-active {
+  background: #2271b1;
+  color: #fff;
+}
+
+.tf-picker-option.is-disabled {
+  color: #8c8f94;
+  cursor: default;
+}
+
+/* ── Thread manager ──────────────────────────────────────────── */
+
+.tf-threads-native {
+  display: none;
+}
+
+.tf-thread-list {
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.tf-thread-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid #f0f0f1;
+}
+
+.tf-thread-item:last-child {
+  border-bottom: none;
+}
+
+.tf-thread-item.is-invalid {
+  background: #fcf0f1;
+}
+
+.tf-thread-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.tf-thread-name-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d2327;
+}
+
+.tf-thread-link {
+  font-size: 11px;
+  color: #2271b1;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tf-thread-warn {
+  font-size: 11px;
+  color: #b32d2e;
+}
+
+.tf-thread-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 4px;
+}
+
+.tf-thread-remove {
+  color: #b32d2e;
+}
+
+.tf-thread-empty {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #646970;
+}
+
+.tf-thread-form {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  background: #f6f7f7;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+}
+
+.tf-thread-form .tf-pool-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tf-thread-form-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.tf-thread-status {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #646970;
+}
+
+.tf-thread-status:empty {
+  display: none;
+}
+
+/* Space between the stacked panels in the Test Chat right column, so the
+   Slack block does not sit flush against the session variables above it. */
+.tf-right-col > details.tf-slack {
+  margin-top: 16px;
+}
+
+/* ── Invite helper ───────────────────────────────────────────── */
+
+.tf-invite-box {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: #f6f7f7;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+}
+
+.tf-invite-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.tf-invite-row .tf-text-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+}
+
+/* ── Overview pointer, shown on the two session screens ──────── */
+
+.tf-overview-pointer {
+  margin: 16px 0 0;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-left: 3px solid #2271b1;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #50575e;
+  line-height: 1.5;
+}
+
+.tf-overview-panel--new {
+  border-left: 3px solid #00713b;
+}
+
+.tf-new-flag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-radius: 9px;
+  background: #edfaef;
+  color: #00713b;
+  border: 1px solid #b8e6c4;
+  vertical-align: middle;
+}
+
+/* ── Scrub Plan ──────────────────────────────────────────────── */
+
+.tf-plan-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.tf-plan-grid > * {
+  min-width: 0;
+}
+
+.tf-plan-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.tf-plan-fields .tf-pool-label {
+  display: block;
+}
+
+.tf-plan-fields input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+
+.tf-plan-drop-add {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tf-plan-drop-add input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tf-drop-reason {
+  font-size: 12px;
+  color: #50575e;
+  line-height: 1.4;
+}
+
+/* The preview renders the same markup the rich copy puts on the clipboard,
+   so what you see here is what lands in the document. */
+.tf-plan-preview {
+  margin-top: 14px;
+  padding: 16px 18px;
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.6;
+  max-height: 620px;
+  overflow: auto;
+}
+
+.tf-plan-preview h1 {
+  font-size: 18px;
+  margin: 0 0 6px;
+}
+
+.tf-plan-preview h2 {
+  font-size: 15px;
+  margin: 18px 0 6px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f1;
+}
+
+.tf-plan-preview h3 {
+  font-size: 13px;
+  margin: 14px 0 4px;
+}
+
+.tf-plan-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 6px 0 12px;
+  font-size: 12px;
+}
+
+.tf-plan-preview th,
+.tf-plan-preview td {
+  border: 1px solid #dcdcde;
+  padding: 5px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tf-plan-preview th {
+  background: #f6f7f7;
+}
+
+.tf-plan-preview ul {
+  margin: 6px 0 12px 18px;
+}
+
+.tf-plan .tf-pool-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+
+@media (max-width: 1100px) {
+  .tf-plan-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Quoted message templates inside the plan preview. */
+.tf-plan-preview blockquote {
+  margin: 4px 0 10px;
+  padding: 6px 12px;
+  border-left: 3px solid #dcdcde;
+  background: #f6f7f7;
+  color: #2c3338;
+}
+
+.tf-plan-preview blockquote p {
+  margin: 0;
+}
+
+.tf-plan-preview strong {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: #646970;
+}
+
+/* ── First-time walkthrough ──────────────────────────────────── */
+
+.tf-overview-panel--steps {
+  border-left: 3px solid #2271b1;
+}
+
+.tf-steps {
+  margin: 12px 0 0;
+  padding: 0 0 0 22px;
+  counter-reset: tf-step;
+}
+
+.tf-steps li {
+  margin: 0 0 14px;
+  padding-left: 4px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.tf-steps li:last-child {
+  margin-bottom: 4px;
+}
+
+.tf-steps strong {
+  display: block;
+  color: #1d2327;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.tf-steps span {
+  display: block;
+  color: #50575e;
+}
