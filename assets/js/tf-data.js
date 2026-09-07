@@ -1,16 +1,16 @@
-﻿window.__TF_MESSAGES__={
+window.__TF_MESSAGES__={
   "opening": {
-    "duration": "2â€“3 min",
+    "duration": "2–3 min",
     "items": [
       { "label": "Announce start", "text": "/here We are starting today's <patch-testing-scrub>" },
-      { "label": "Welcome", "text": "Hello everyone ðŸ‘‹" },
+      { "label": "Welcome", "text": "Hello everyone 👋" },
       {
         "label": "Invite participants",
         "text": "If you're around, we'd love your help with testing and sharing reports."
       },
       {
         "label": "Call for testers",
-        "text": "If you're ready to start patch testing, please reply in this thread so I can assign you a ticket. ðŸ§µ"
+        "text": "If you're ready to start patch testing, please reply in this thread so I can assign you a ticket. 🧵"
       },
       {
         "label": "Announcement",
@@ -33,7 +33,7 @@
     ]
   },
   "assigning_tickets": {
-    "duration": "40â€“50 min",
+    "duration": "40–50 min",
     "items": [
       {
         "note": true,
@@ -67,21 +67,21 @@
     ]
   },
   "closing": {
-    "duration": "2â€“3 min",
+    "duration": "2–3 min",
     "items": [
       { "label": "End session", "text": "Well, this marks the end of today's </patch-testing-session>" },
       {
         "label": "Reassure participants",
         "text": "Feel free to ping me if you need to comment on anything, and also if you have not finished with your patch testing, you can continue for as long as you want, and ping me if you have any trouble finishing."
       },
-      { "label": "Thank participants", "text": "Thanks {participants} for coming today. ðŸŽ‰" }
+      { "label": "Thank participants", "text": "Thanks {participants} for coming today. 🎉" }
     ]
   }
 }
 ;
 window.__TF_TESTCHAT__={
   "opening": {
-    "duration": "2â€“3 min",
+    "duration": "2–3 min",
     "items": [
       {
         "label": "Announce start",
@@ -140,12 +140,12 @@ window.__TF_TESTCHAT__={
       },
       {
         "label": "Call to volunteer",
-        "text": "ðŸ™Œ If youâ€™d like to volunteer for any open slot, please reply in the thread."
+        "text": "🙌 If you’d like to volunteer for any open slot, please reply in the thread."
       }
     ]
   },
   "discussions": {
-    "duration": "30â€“40 min",
+    "duration": "30–40 min",
     "items": [
       {
         "label": "Start discussions",
@@ -157,7 +157,7 @@ window.__TF_TESTCHAT__={
       },
       {
         "note": true,
-        "text": "Provide context if needed â€” share a brief explanation before opening the topic"
+        "text": "Provide context if needed — share a brief explanation before opening the topic"
       },
       {
         "label": "Introduce the item",
@@ -178,7 +178,7 @@ window.__TF_TESTCHAT__={
     ]
   },
   "open_floor": {
-    "duration": "5â€“10 min",
+    "duration": "5–10 min",
     "items": [
       {
         "label": "Time check",
@@ -195,7 +195,7 @@ window.__TF_TESTCHAT__={
     ]
   },
   "announcements": {
-    "duration": "5â€“8 min",
+    "duration": "5–8 min",
     "items": [
       {
         "label": "Intro",
@@ -220,7 +220,7 @@ window.__TF_TESTCHAT__={
     ]
   },
   "closing": {
-    "duration": "1â€“2 min",
+    "duration": "1–2 min",
     "items": [
       {
         "label": "Wrap up",
@@ -234,4 +234,3 @@ window.__TF_TESTCHAT__={
   }
 }
 ;
-
